@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Menu, X, User, LogOut, Bell } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
   const { user, logout } = useAuthStore();
@@ -37,7 +38,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           
-          <div className="flex items-center space-x-2">
+          <Link to="/dashboard"  className="flex items-center space-x-2">
             <div className="w-8 h-8 flex items-center justify-center">
               <img 
                 src="/logo.png" 
@@ -53,7 +54,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
             <h1 className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 text-transparent bg-clip-text hidden sm:block">
               Vnr Keys
             </h1>
-          </div>
+          </Link>
         </div>
 
         {/* Right side - User menu */}
