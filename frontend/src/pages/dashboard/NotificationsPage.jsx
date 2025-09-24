@@ -59,11 +59,11 @@ const NotificationsPage = () => {
             <div className="flex items-center gap-3">
               <Bell className="h-8 w-8 text-blue-400" />
               <h1 className="text-3xl font-bold text-white">Notifications</h1>
-              {unreadCount > 0 && (
+              /* {unreadCount > 0 && (
                 <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
-                  {unreadCount} unread
+                  {unreadCount}
                 </span>
-              )}
+              )} */
             </div>
             <button
               onClick={fetchNotifications}
