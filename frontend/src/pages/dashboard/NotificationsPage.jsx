@@ -12,7 +12,9 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { useNotificationStore } from '../../store/notificationStore';
+import { useAuthStore } from '../../store/authStore';
 import { formatDistanceToNow } from 'date-fns';
+import NotificationResendButton from '../../components/notifications/NotificationResendButton';
 
 const NotificationsPage = () => {
   const {
@@ -24,6 +26,8 @@ const NotificationsPage = () => {
     markAsRead,
     markAsUnread
   } = useNotificationStore();
+  
+  const { user } = useAuthStore();
 
   useEffect(() => {
     fetchNotifications();
@@ -65,13 +69,18 @@ const NotificationsPage = () => {
                 </span>
               )}
             </div>
-            <button
-              onClick={fetchNotifications}
-              disabled={loading}
-              className="p-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg transition-colors"
-            >
-              <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
-            </button>
+            <div className="flex items-center gap-3">
+              {(user?.role === 'security' || user?.role === 'admin') && (
+                <NotificationResendButton />
+              )}
+              <button
+                onClick={fetchNotifications}
+                disabled={loading}
+                className="p-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg transition-colors"
+              >
+                <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
           </div>
           <p className="text-gray-400">View your notifications</p>
         </div>
@@ -119,29 +128,42 @@ const NotificationsPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ delay: index * 0.02 }}
-                    className={`p-4 hover:bg-gray-750 transition-colors border-l-4 ${
+                    className={`p-4 hover:bg-gray-750 transition-colors border-l-4 cursor-pointer ${
                       getNotificationColor(notification.read)
                     } ${!notification.read ? 'bg-gray-750/50' : ''}`}
+                    onClick={() =>
+                      notification.read
+                        ? markAsUnread(notification._id)
+                        : markAsRead(notification._id)
+                    }
                   >
                     <div className="flex items-start gap-4">
                       {/* Icon */}
                       <div className="flex-shrink-0 mt-1">
-                        {getNotificationIcon(notification.type, notification.priority, notification.read)}
+                        {getNotificationIcon(
+                          notification.type,
+                          notification.priority,
+                          notification.read
+                        )}
                       </div>
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="mb-2">
-                          <h3 className={`text-sm font-medium ${
-                            notification.read ? 'text-gray-300' : 'text-white'
-                          }`}>
+                          <h3
+                            className={`text-sm font-medium ${
+                              notification.read ? 'text-gray-300' : 'text-white'
+                            }`}
+                          >
                             {notification.title || 'Notification'}
                           </h3>
                         </div>
 
-                        <p className={`text-sm mb-3 ${
-                          notification.read ? 'text-gray-400' : 'text-gray-300'
-                        }`}>
+                        <p
+                          className={`text-sm mb-3 ${
+                            notification.read ? 'text-gray-400' : 'text-gray-300'
+                          }`}
+                        >
                           {notification.message || 'No message available'}
                         </p>
 
@@ -150,20 +172,36 @@ const NotificationsPage = () => {
                           <div className="flex items-center gap-4 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
-                              {notification.createdAt ? formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true }) : 'Unknown time'}
+                              {notification.createdAt
+                                ? formatDistanceToNow(new Date(notification.createdAt), {
+                                    addSuffix: true,
+                                  })
+                                : 'Unknown time'}
                             </div>
-                            <span className="capitalize">{notification.type?.replace('_', ' ') || 'notification'}</span>
+                            <span className="capitalize">
+                              {notification.type?.replace('_', ' ') || 'notification'}
+                            </span>
                             {notification.read && notification.readAt && (
-                              <span>Read {formatDistanceToNow(new Date(notification.readAt), { addSuffix: true })}</span>
+                              <span>
+                                Read{' '}
+                                {formatDistanceToNow(new Date(notification.readAt), {
+                                  addSuffix: true,
+                                })}
+                              </span>
                             )}
                           </div>
 
                           {/* Action Buttons */}
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() => notification.read ? markAsUnread(notification._id) : markAsRead(notification._id)}
                               className="p-1 text-gray-500 hover:text-gray-300 transition-colors"
                               title={notification.read ? 'Mark as unread' : 'Mark as read'}
+                              onClick={(e) => {
+                                e.stopPropagation(); // prevent triggering parent onClick
+                                notification.read
+                                  ? markAsUnread(notification._id)
+                                  : markAsRead(notification._id);
+                              }}
                             >
                               {notification.read ? (
                                 <EyeOff className="h-4 w-4" />

@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { checkAndSendKeyReminders, cleanupExpiredNotifications } from './notificationService.js';
+import { checkAndSendKeyReminders, cleanupExpiredNotifications, createDailySummaryNotifications } from './notificationService.js';
 
 /**
  * Scheduled Jobs Service
@@ -12,10 +12,10 @@ import { checkAndSendKeyReminders, cleanupExpiredNotifications } from './notific
 export const initializeScheduledJobs = () => {
   console.log('🕐 Initializing scheduled jobs...');
 
-  // Job 1: Daily key reminders at 5:20 PM (17:20)
-  // Cron expression: '20 17 * * *' means "at 17:20 (5:20 PM) every day"
-  const keyReminderJob = cron.schedule('20 17 * * *', async () => {
-    console.log('🔔 Running daily key reminder job at 5:20 PM...');
+  // Job 1: Daily key reminders at 5:00 PM (17:00)
+  // Cron expression: '0 17 * * *' means "at 17:00 (5:00 PM) every day"
+  const keyReminderJob = cron.schedule('0 17 * * *', async () => {
+    console.log('🔔 Running daily key reminder job at 5:00 PM...');
     try {
       const result = await checkAndSendKeyReminders();
       console.log(`✅ Key reminder job completed:`, result);
@@ -25,6 +25,21 @@ export const initializeScheduledJobs = () => {
   }, {
     scheduled: true,
     timezone: "Asia/Kolkata" // Indian Standard Time
+  });
+
+  // Job 2: Daily summary notifications at 5:20 PM (17:20)
+  // Cron expression: '20 17 * * *' means "at 17:20 (5:20 PM) every day"
+  const summaryNotificationJob = cron.schedule('20 17 * * *', async () => {
+    console.log('📊 Running daily summary notification job at 5:20 PM...');
+    try {
+      const result = await createDailySummaryNotifications();
+      console.log(`✅ Summary notification job completed:`, result);
+    } catch (error) {
+      console.error('❌ Error in summary notification job:', error);
+    }
+  }, {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
   });
 
   // Job 2: Daily cleanup of expired notifications at midnight

@@ -44,6 +44,7 @@ const notificationSchema = new mongoose.Schema(
         "key_returned",
         "batch-return",
         "key_reminder",
+        "key_summary",
         "security_alert",
         "system",
         "general",

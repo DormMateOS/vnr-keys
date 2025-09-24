@@ -13,6 +13,8 @@ import {
 } from "../controllers/notification.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { rolePermissions } from "../middleware/roleAuth.js";
+import { asyncHandler } from "../utils/errorHandler.js";
+import { createDailySummaryNotifications } from "../services/notificationService.js";
 
 const router = express.Router();
 
@@ -37,5 +39,33 @@ router.patch("/mark-all-read", markAllAsRead); // Mark all notifications as read
 router.post("/trigger-reminders", rolePermissions.adminOnly, triggerKeyReminders); // Manually trigger key reminders
 router.get("/admin/stats", rolePermissions.adminOnly, getNotificationStats); // Get notification statistics
 router.post("/admin/cleanup", rolePermissions.adminOnly, cleanupNotifications); // Cleanup expired notifications
+
+// Security & Admin route for resending daily summary
+router.post(
+  "/resend-daily-summary", 
+  rolePermissions.adminOrSecurity, 
+  asyncHandler(async (req, res) => {
+    // Check if it's after 5:20 PM
+    const now = new Date();
+    const targetTime = new Date();
+    targetTime.setHours(1, 0, 0); // 5:20 PM
+
+    if (now < targetTime) {
+      return res.status(400).json({
+        success: false,
+        message: 'Daily summary notifications can only be resent after 5:20 PM'
+      });
+    }
+
+    // Generate and send notifications
+    const result = await createDailySummaryNotifications();
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully sent ${result.totalNotifications} notifications about ${result.totalUnreturnedKeys} unreturned keys`,
+      data: result
+    });
+  })
+);
 
 export default router;

@@ -537,3 +537,124 @@ export const cleanupExpiredNotifications = async () => {
     throw error;
   }
 };
+
+/**
+ * Create daily summary notifications for security and admin
+ * @returns {Promise<Object>} Summary of notifications sent
+ */
+export const createDailySummaryNotifications = async () => {
+  try {
+    console.log('🔍 Generating daily summary at 5:20 PM...');
+    
+    // Find all unreturned keys with their holders
+    const unreturnedKeys = await Key.find({ 
+      status: 'unavailable',
+      'takenBy.userId': { $ne: null },
+      isActive: true
+    }).populate('takenBy.userId');
+    
+    // Group keys by department
+    const keysByDepartment = {};
+    let totalUnreturnedKeys = 0;
+    
+    for (const key of unreturnedKeys) {
+      totalUnreturnedKeys++;
+      const department = key.department || 'Unknown Department';
+      if (!keysByDepartment[department]) {
+        keysByDepartment[department] = [];
+      }
+      keysByDepartment[department].push({
+        keyNumber: key.keyNumber,
+        keyName: key.keyName,
+        holder: key.takenBy.userId.name,
+        holderId: key.takenBy.userId._id,
+        takenAt: key.takenBy.timestamp
+      });
+    }
+    
+    // Generate summary message
+    let summaryMessage = `Daily Key Return Summary\n\n`;
+    summaryMessage += `Total Unreturned Keys: ${totalUnreturnedKeys}\n\n`;
+    
+    for (const [department, keys] of Object.entries(keysByDepartment)) {
+      summaryMessage += `${department} (${keys.length} keys):\n`;
+      keys.forEach(key => {
+        summaryMessage += `• Key ${key.keyNumber} (${key.keyName}) - Held by ${key.holder}\n`;
+      });
+      summaryMessage += '\n';
+    }
+
+    // Get all security and admin users
+    const [securityUsers, adminUsers] = await Promise.all([
+      User.find({ role: 'security', isVerified: true }),
+      User.find({ role: 'admin', isVerified: true })
+    ]);
+
+    const notifications = [];
+
+    // Send to security users
+    for (const user of securityUsers) {
+      const notificationData = {
+        recipient: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: 'security',
+        },
+        title: `Daily Key Return Summary - ${totalUnreturnedKeys} Keys Pending`,
+        message: summaryMessage,
+        type: 'key_summary',
+        priority: 'medium',
+        metadata: {
+          totalKeys: totalUnreturnedKeys,
+          departmentSummary: keysByDepartment,
+          generatedAt: new Date().toISOString()
+        }
+      };
+
+      const notification = await createAndSendNotification(notificationData, {
+        email: true,
+        realTime: true
+      });
+      notifications.push(notification);
+    }
+
+    // Send to admin users
+    for (const user of adminUsers) {
+      const notificationData = {
+        recipient: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: 'admin',
+        },
+        title: `Daily Key Return Summary - ${totalUnreturnedKeys} Keys Pending`,
+        message: summaryMessage,
+        type: 'key_summary',
+        priority: 'medium',
+        metadata: {
+          totalKeys: totalUnreturnedKeys,
+          departmentSummary: keysByDepartment,
+          generatedAt: new Date().toISOString()
+        }
+      };
+
+      const notification = await createAndSendNotification(notificationData, {
+        email: true,
+        realTime: true
+      });
+      notifications.push(notification);
+    }
+
+    console.log(`✅ Sent daily summary to ${securityUsers.length} security and ${adminUsers.length} admin users`);
+    return {
+      totalNotifications: notifications.length,
+      totalUnreturnedKeys,
+      securityRecipients: securityUsers.length,
+      adminRecipients: adminUsers.length
+    };
+  } catch (error) {
+    console.error("❌ Error creating daily summary notifications:", error);
+    throw error;
+  }
+};
