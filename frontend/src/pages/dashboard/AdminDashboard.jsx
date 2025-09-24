@@ -157,8 +157,8 @@ const AdminDashboard = () => {
   ];
 
   const roleDistribution = [
-    { role: "Security", count: adminStats.usersByRole.operator || 0, color: "bg-blue-500" },
-    { role: "Faculty", count: adminStats.usersByRole.responder || 0, color: "bg-green-500" },
+    { role: "Security", count: adminStats.usersByRole.security || 0, color: "bg-blue-500" },
+    { role: "Faculty", count: adminStats.usersByRole.faculty || 0, color: "bg-green-500" },
     { role: "Admins", count: adminStats.usersByRole.admin || 0, color: "bg-purple-500" },
   ];
 
@@ -421,7 +421,11 @@ const AdminDashboard = () => {
             Recent Users
           </h3>
           <div className="space-y-3">
-            {dashboardData?.recentUsers?.slice(0, 5).map((recentUser) => (
+            {analyticsLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : analyticsData.activeUsers?.recentUsers?.slice(0, 5).map((recentUser) => (
               <div key={recentUser.id} className="flex items-center justify-between py-2">
                 <div className="flex items-center">
                   <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
@@ -434,7 +438,10 @@ const AdminDashboard = () => {
                     <p className="text-gray-400 text-xs">{recentUser.role}</p>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">
+                    {new Date(recentUser.createdAt).toLocaleDateString()}
+                  </span>
                   {recentUser.isVerified ? (
                     <UserCheck className="h-4 w-4 text-green-500" />
                   ) : (
