@@ -44,7 +44,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   }, [isMobile, sidebarOpen]);
 
   const baseMenuItems = [
-    { icon: Home, label: "Home", path: "/dashboard" },
+    { 
+      icon: Home, 
+      label: "Home", 
+      path: user?.role === "faculty" ? "/dashboard/faculty/taken" : "/dashboard"
+    },
     { icon: Bell, label: "Notifications", path: "/dashboard/notifications" },
     { icon: User, label: "Profile", path: "/dashboard/profile" },
     { icon: Info, label: "About Us", path: "/dashboard/about" },
