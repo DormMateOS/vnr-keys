@@ -66,7 +66,7 @@ const FacultyDashboard = () => {
   }, [location.pathname]);
 
   const handleTabChange = (tabId) => {
-    const newPath = tabId === "taken" ? "/dashboard/faculty" : `/dashboard/faculty/${tabId}`;
+    const newPath = `/dashboard/faculty/${tabId}`;
     // Store the current route in localStorage
     localStorage.setItem('lastFacultyRoute', newPath);
     navigate(newPath);
