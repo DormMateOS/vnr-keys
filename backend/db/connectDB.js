@@ -17,8 +17,6 @@ export const connectDB = async () => {
 
         // Connect with improved options
         const conn = await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             serverSelectionTimeoutMS: 15000, // Timeout after 15 seconds
             socketTimeoutMS: 30000, // Close sockets after 30 seconds
             family: 4 // Use IPv4, skip trying IPv6

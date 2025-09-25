@@ -45,7 +45,7 @@ const SecurityDashboard = () => {
     getAvailableKeys,
     getUnavailableKeys,
     fetchKeys,
-    returnKey,
+    returnKeyAPI,
     initializeSocket,
     disconnectSocket
   } = useKeyStore();
@@ -330,7 +330,7 @@ const SecurityDashboard = () => {
   const handleCollectKey = async (keyId) => {
     try {
       // Skip API notification since we'll show our own
-      const updatedKey = await returnKey(keyId, true);
+      const updatedKey = await returnKeyAPI(keyId, true);
       
       // Show success toast notification
       handleSuccess(`Key ${updatedKey.keyNumber} (${updatedKey.keyName}) collected successfully`);
@@ -344,7 +344,7 @@ const SecurityDashboard = () => {
     
     try {
       // Perform the actual key return
-      const updatedKey = await returnKey(pendingReturnData.keyId, true);
+      const updatedKey = await returnKeyAPI(pendingReturnData.keyId, true);
       
       // Show success toast notification
       handleSuccess(`Key ${pendingReturnData.keyNumber} (${pendingReturnData.keyName}) returned successfully`);
