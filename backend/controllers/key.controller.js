@@ -348,23 +348,35 @@ export const returnKey = asyncHandler(async (req, res) => {
 
   // Create notifications based on who is returning the key
   try {
+    console.log('🔄 Starting notification process for key return...');
+    console.log('Original user:', originalUser ? { id: originalUser._id, name: originalUser.name } : 'null');
+    console.log('Returned by:', returnedBy ? { id: returnedBy._id, name: returnedBy.name } : 'null');
+
     const { createKeySelfReturnedNotification, createKeyPendingReturnNotification } = await import('../services/notificationService.js');
     
     if (originalUser && returnedBy) {
       if (originalUser._id.toString() === returnedBy._id.toString()) {
         // Key returned by original taker
-        await createKeySelfReturnedNotification(key, originalUser);
+        console.log('📢 Self-return detected, creating self-return notification');
+        const notification = await createKeySelfReturnedNotification(key, originalUser);
+        console.log('✅ Self-return notification created:', notification._id);
       } else {
         // If key is being returned by someone else and it's after hours, send a pending notification
+        console.log('📢 Return by different user detected, checking time...');
         const now = new Date();
         const keyTakenTime = new Date(key.takenAt);
         if (keyTakenTime.getDate() === now.getDate() && now.getHours() >= 17) {
-          await createKeyPendingReturnNotification(key, originalUser);
+          console.log('📢 After-hours return detected, creating pending notification');
+          const notification = await createKeyPendingReturnNotification(key, originalUser);
+          console.log('✅ Pending notification created:', notification._id);
         }
       }
+    } else {
+      console.log('⚠️ Missing user information for notification:', { originalUser: !!originalUser, returnedBy: !!returnedBy });
     }
   } catch (notificationError) {
     console.error('❌ Error sending key return notification:', notificationError);
+    console.error('Error stack:', notificationError.stack);
   }
 
   // Log the return operation
@@ -711,19 +723,20 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
   }
 
   // Get the original user who took the key
-  console.log('🔍 Looking up user with ID:', userId);
+  console.log('🔍 Looking up original user with ID:', userId);
   const originalUser = await User.findById(userId);
   if (!originalUser) {
-    console.log('❌ User not found with ID:', userId);
+    console.log('❌ Original user not found with ID:', userId);
     throw new NotFoundError("Original user not found");
   }
-  console.log('✅ User found:', originalUser.name, originalUser.email);
+  console.log('✅ Original user found:', originalUser.name, originalUser.email);
 
-  // Get the user performing the return
-  const returnedBy = await User.findById(req.userId);
+  // Get the user performing the return (from QR code's returnId)
+  console.log('🔍 Looking up returning user with ID:', returnId);
+  const returnedBy = await User.findById(returnId);
   if (!returnedBy) {
-    console.log('❌ User performing return not found with ID:', req.userId);
-    throw new NotFoundError("User performing return not found");
+    console.log('❌ Returning user not found with ID:', returnId);
+    throw new NotFoundError("Returning user not found");
   }
   console.log('✅ Returning user found:', returnedBy.name);
 
@@ -748,9 +761,9 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
     },
     takenAt: key.takenAt,
     returnedBy: {
-      userId: req.userId,
-      name: req.userName || 'Security',
-      email: req.userEmail
+      userId: returnedBy._id,
+      name: returnedBy.name,
+      email: returnedBy.email
     },
     returnedAt: new Date(),
     frequentlyUsed: key.frequentlyUsed,
@@ -812,9 +825,10 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
         email: originalUser.email
       },
       scannedBy: {
-        id: req.userId,
-        name: req.userName || 'Security',
-        role: req.userRole
+        id: returnedBy._id,
+        name: returnedBy.name,
+        email: returnedBy.email,
+        role: returnedBy.role
       }
     },
   });
