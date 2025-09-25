@@ -17,9 +17,37 @@ export const createNotification = async (notificationData) => {
   try {
     console.log('🔵 Creating notification with data:', JSON.stringify(notificationData, null, 2));
     
-    const notification = new Notification(notificationData);
-    console.log('🔵 Notification model created, saving to database...');
+    // Validate required fields
+    if (!notificationData.recipient?.userId) {
+      throw new Error('Recipient userId is required');
+    }
+    if (!notificationData.recipient?.name) {
+      throw new Error('Recipient name is required');
+    }
+    if (!notificationData.recipient?.email) {
+      throw new Error('Recipient email is required');
+    }
+    if (!notificationData.recipient?.role) {
+      throw new Error('Recipient role is required');
+    }
+    if (!notificationData.title) {
+      throw new Error('Notification title is required');
+    }
+    if (!notificationData.message) {
+      throw new Error('Notification message is required');
+    }
     
+    const notification = new Notification(notificationData);
+    console.log('🔵 Notification model created, validating...');
+    
+    // Run model validation
+    const validationError = notification.validateSync();
+    if (validationError) {
+      console.error('❌ Validation failed:', validationError);
+      throw validationError;
+    }
+    
+    console.log('✅ Validation passed, saving to database...');
     await notification.save();
     console.log('✅ Notification saved to database successfully');
     console.log(`📢 Notification created: ${notification.title} for user ${notification.recipient.name}`);
@@ -54,12 +82,19 @@ export const sendRealTimeNotification = async (notification) => {
       read: notification.read
     };
 
-    // Send to specific user
-    global.io.to(`user-${notification.recipient.userId}`).emit('notification', notificationData);
+    try {
+      // Send to specific user
+      global.io.to(`user-${notification.recipient.userId}`).emit('new-notification', notificationData);
+      console.log('✅ Notification emitted to user:', notification.recipient.userId);
 
-    // Send to role-based rooms (for security notifications)
-    if (notification.recipient.role === 'security') {
-      global.io.to('security-room').emit('notification', notificationData);
+      // Send to role-based rooms (for security notifications)
+      if (notification.recipient.role === 'security') {
+        global.io.to('security-room').emit('new-notification', notificationData);
+        console.log('✅ Notification emitted to security room');
+      }
+    } catch (error) {
+      console.error('❌ Error in socket emission:', error);
+      // Don't throw - socket errors shouldn't break the notification flow
     }
     
     console.log(`🔄 Real-time notification sent to user ${notification.recipient.name}`);
@@ -121,7 +156,10 @@ export const createKeyTakenNotification = async (key, faculty) => {
 
     console.log('🔵 Notification data prepared:', JSON.stringify(notificationData, null, 2));
 
-    const notification = await createAndSendNotification(notificationData, { email: false });
+    const notification = await createAndSendNotification(notificationData, { 
+      email: false,
+      realTime: true  // Ensure real-time notification is sent
+    });
     console.log('✅ Key taken notification created and sent successfully');
     return notification;
   } catch (error) {
@@ -291,10 +329,15 @@ export const createAndSendNotification = async (notificationData, options = {}) 
     console.log('✅ Notification created in database with ID:', notification._id);
     
     // Send real-time notification
+    // Always send real-time notification unless explicitly disabled
     if (options.realTime !== false) {
       console.log('🔵 Sending real-time notification...');
-      await sendRealTimeNotification(notification);
-      console.log('✅ Real-time notification sent');
+      try {
+        await sendRealTimeNotification(notification);
+        console.log('✅ Real-time notification sent');
+      } catch (error) {
+        console.error('❌ Error sending real-time notification:', error);
+      }
     }
     
     // Send email notification only if explicitly enabled
@@ -534,6 +577,127 @@ export const cleanupExpiredNotifications = async () => {
     return result;
   } catch (error) {
     console.error("❌ Error cleaning up expired notifications:", error);
+    throw error;
+  }
+};
+
+/**
+ * Create daily summary notifications for security and admin
+ * @returns {Promise<Object>} Summary of notifications sent
+ */
+export const createDailySummaryNotifications = async () => {
+  try {
+    console.log('🔍 Generating daily summary at 5:20 PM...');
+    
+    // Find all unreturned keys with their holders
+    const unreturnedKeys = await Key.find({ 
+      status: 'unavailable',
+      'takenBy.userId': { $ne: null },
+      isActive: true
+    }).populate('takenBy.userId');
+    
+    // Group keys by department
+    const keysByDepartment = {};
+    let totalUnreturnedKeys = 0;
+    
+    for (const key of unreturnedKeys) {
+      totalUnreturnedKeys++;
+      const department = key.department || 'Unknown Department';
+      if (!keysByDepartment[department]) {
+        keysByDepartment[department] = [];
+      }
+      keysByDepartment[department].push({
+        keyNumber: key.keyNumber,
+        keyName: key.keyName,
+        holder: key.takenBy.userId.name,
+        holderId: key.takenBy.userId._id,
+        takenAt: key.takenBy.timestamp
+      });
+    }
+    
+    // Generate summary message
+    let summaryMessage = `Daily Key Return Summary\n\n`;
+    summaryMessage += `Total Unreturned Keys: ${totalUnreturnedKeys}\n\n`;
+    
+    for (const [department, keys] of Object.entries(keysByDepartment)) {
+      summaryMessage += `${department} (${keys.length} keys):\n`;
+      keys.forEach(key => {
+        summaryMessage += `• Key ${key.keyNumber} (${key.keyName}) - Held by ${key.holder}\n`;
+      });
+      summaryMessage += '\n';
+    }
+
+    // Get all security and admin users
+    const [securityUsers, adminUsers] = await Promise.all([
+      User.find({ role: 'security', isVerified: true }),
+      User.find({ role: 'admin', isVerified: true })
+    ]);
+
+    const notifications = [];
+
+    // Send to security users
+    for (const user of securityUsers) {
+      const notificationData = {
+        recipient: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: 'security',
+        },
+        title: `Daily Key Return Summary - ${totalUnreturnedKeys} Keys Pending`,
+        message: summaryMessage,
+        type: 'key_summary',
+        priority: 'medium',
+        metadata: {
+          totalKeys: totalUnreturnedKeys,
+          departmentSummary: keysByDepartment,
+          generatedAt: new Date().toISOString()
+        }
+      };
+
+      const notification = await createAndSendNotification(notificationData, {
+        email: true,
+        realTime: true
+      });
+      notifications.push(notification);
+    }
+
+    // Send to admin users
+    for (const user of adminUsers) {
+      const notificationData = {
+        recipient: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: 'admin',
+        },
+        title: `Daily Key Return Summary - ${totalUnreturnedKeys} Keys Pending`,
+        message: summaryMessage,
+        type: 'key_summary',
+        priority: 'medium',
+        metadata: {
+          totalKeys: totalUnreturnedKeys,
+          departmentSummary: keysByDepartment,
+          generatedAt: new Date().toISOString()
+        }
+      };
+
+      const notification = await createAndSendNotification(notificationData, {
+        email: true,
+        realTime: true
+      });
+      notifications.push(notification);
+    }
+
+    console.log(`✅ Sent daily summary to ${securityUsers.length} security and ${adminUsers.length} admin users`);
+    return {
+      totalNotifications: notifications.length,
+      totalUnreturnedKeys,
+      securityRecipients: securityUsers.length,
+      adminRecipients: adminUsers.length
+    };
+  } catch (error) {
+    console.error("❌ Error creating daily summary notifications:", error);
     throw error;
   }
 };

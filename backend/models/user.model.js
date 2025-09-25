@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
         "CSE",
         "EEE",
         "CSE-AIML",
+        
         "IoT",
         "ECE",
         "MECH",

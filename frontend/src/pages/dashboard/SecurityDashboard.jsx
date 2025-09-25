@@ -8,6 +8,7 @@ import { useAuthStore } from "../../store/authStore";
 import BottomNavigation from "../../components/ui/BottomNavigation";
 import KeyCard from "../../components/keys/KeyCard";
 import QRScanner from "../../components/keys/QRScanner";
+import BatchReturnConfirmationModal from "../../components/keys/BatchReturnConfirmationModal";
 import { processQRScanRequest, processBatchQRScanReturn, validateQRData, parseQRString } from "../../services/qrService";
 import { config } from "../../utils/config";
 import { handleSuccess } from "../../utils/errorHandler";
@@ -35,6 +36,8 @@ const SecurityDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [scannerKey, setScannerKey] = useState(0); // Force re-mount of scanner
+  const [showBatchReturnModal, setShowBatchReturnModal] = useState(false);
+  const [pendingBatchReturn, setPendingBatchReturn] = useState(null);
 
   const { user } = useAuthStore();
   const {
@@ -143,13 +146,34 @@ const SecurityDashboard = () => {
       // Handle batch return QR codes
       if (validation.type === 'batch-return') {
         try {
-          const result = await processBatchQRScanReturn(parsedData);
-          setScanResult({
-            success: true,
-            message: result.message,
-            type: 'batch-return'
+          // Fetch details for all keys in the batch
+          const keyDetailsPromises = parsedData.keyIds.map(async (keyId) => {
+            try {
+              const keyUrl = `${config.api.keysUrl}/${keyId}`;
+              const keyResponse = await axios.get(keyUrl, { withCredentials: true });
+              const keyResult = keyResponse.data;
+              const keyData = keyResult?.data?.key || keyResult?.data || keyResult;
+              return {
+                id: keyId,
+                keyNumber: keyData?.keyNumber || keyData?.number || 'Unknown',
+                name: keyData?.keyName || keyData?.name || 'Unknown Key'
+              };
+            } catch (error) {
+              console.warn(`Failed to fetch details for key ${keyId}:`, error);
+              return {
+                id: keyId,
+                keyNumber: 'Unknown',
+                name: `Key #${keyId.substring(0, 8)}...`
+              };
+            }
           });
-          setShowScanResult(true);
+
+          const keys = await Promise.all(keyDetailsPromises);
+          setPendingBatchReturn({
+            ...parsedData,
+            keys
+          });
+          setShowBatchReturnModal(true);
           setShowScanner(false);
           return;
         } catch (error) {
@@ -339,6 +363,42 @@ const SecurityDashboard = () => {
     }
   };
 
+  const handleConfirmBatchReturn = async () => {
+    if (!pendingBatchReturn) return;
+    
+    try {
+      // Process the batch return
+      const result = await processBatchQRScanReturn(pendingBatchReturn);
+      
+      // Show success notification
+      handleSuccess(result.message || 'Keys returned successfully');
+      
+      // Close the modal
+      setShowBatchReturnModal(false);
+      setPendingBatchReturn(null);
+      
+      // Show success result
+      setScanResult({
+        success: true,
+        message: result.message,
+        type: 'batch-return'
+      });
+      setShowScanResult(true);
+    } catch (error) {
+      console.error("Batch return error:", error);
+      // Show error
+      setScanResult({
+        success: false,
+        message: error.message || 'Failed to process batch return',
+        type: 'error'
+      });
+      setShowScanResult(true);
+      // Close batch return modal
+      setShowBatchReturnModal(false);
+      setPendingBatchReturn(null);
+    }
+  };
+
       const outletContext = {
     // Page props
     setShowScanner,
@@ -466,7 +526,7 @@ const SecurityDashboard = () => {
               </div>
 
               <div className="flex gap-3">
-                {/* <button
+                <button
                   onClick={() => {
                     setShowReturnConfirmation(false);
                     setPendingReturnData(null);
@@ -475,7 +535,7 @@ const SecurityDashboard = () => {
                   className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors"
                 >
                   Cancel
-                </button> */}
+                </button>
                 <button
                   onClick={handleConfirmReturn}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
@@ -486,6 +546,20 @@ const SecurityDashboard = () => {
             </div>
           </motion.div>
         </div>
+      )}
+
+      {/* Batch Return Confirmation Modal */}
+      {showBatchReturnModal && pendingBatchReturn && (
+        <BatchReturnConfirmationModal
+          isOpen={showBatchReturnModal}
+          onClose={() => {
+            setShowBatchReturnModal(false);
+            setPendingBatchReturn(null);
+            setShowScanner(true);
+          }}
+          onConfirm={handleConfirmBatchReturn}
+          keys={pendingBatchReturn.keys}
+        />
       )}
     </div>
   );

@@ -68,7 +68,8 @@ export const getLogbookEntries = async (req, res) => {
     const entries = await Logbook.find(query)
       .sort({ createdAt: -1 })
       .populate('recordedBy.userId', 'name email')
-      .populate('takenBy.userId', 'name email');
+      .populate('takenBy.userId', 'name email')
+      .populate('returnedBy.userId', 'name email');
 
     res.status(200).json({
       success: true,
@@ -140,7 +141,8 @@ export const getAdminLogbookEntries = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit))
       .populate('recordedBy.userId', 'name email role department')
-      .populate('takenBy.userId', 'name email role department');
+      .populate('takenBy.userId', 'name email role department')
+      .populate('returnedBy.userId', 'name email role department');
 
     res.status(200).json({
       success: true,

@@ -609,6 +609,9 @@ const AddKeyModal = ({ isOpen, onClose, onSubmit, isLoading }) => {
                 <option value="EEE">EEE</option>
                 <option value="AIML">AIML</option>
                 <option value="IoT">IoT</option>
+                <option value="CSE_AIDS">CSE</option>
+                <option value="CSE_CYS">CSE</option>
+                <option value="CSE_DS">CSE</option>
                 <option value="ECE">ECE</option>
                 <option value="MECH">MECH</option>
                 <option value="CIVIL">CIVIL</option>

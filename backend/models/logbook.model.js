@@ -41,6 +41,21 @@ const logbookSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    returnedBy: {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+      name: {
+        type: String,
+        default: null,
+      },
+      email: {
+        type: String,
+        default: null,
+      },
+    },
     returnedAt: {
       type: Date,
       default: null,
@@ -65,6 +80,9 @@ const logbookSchema = new mongoose.Schema(
         "CSE", // Computer Science Engineering
         "EEE", // Electrical and Electronics Engineering
         "AIML", // Artificial Intelligence and Machine Learning
+        "CSE_CYS", // CSE - Cyber Security
+        "CSE_DS", // CSE - Data Science
+        "CSE_AIDS", // CSE - AI & Data Science
         "IoT", // Internet of Things
         "ECE", // Electronics and Communication Engineering
         "MECH", // Mechanical Engineering

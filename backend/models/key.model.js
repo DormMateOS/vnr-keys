@@ -5,7 +5,7 @@ const keySchema = new mongoose.Schema(
     keyNumber: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
       trim: true,
     },
     keyName: {
@@ -24,6 +24,21 @@ const keySchema = new mongoose.Schema(
       default: "available",
     },
     takenBy: {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+      name: {
+        type: String,
+        default: null,
+      },
+      email: {
+        type: String,
+        default: null,
+      },
+    },
+    returnedBy: {
       userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -66,6 +81,9 @@ const keySchema = new mongoose.Schema(
         "CSE", // Computer Science Engineering
         "EEE", // Electrical and Electronics Engineering
         "AIML", // Artificial Intelligence and Machine Learning
+        "CSE_CYS", // CSE - Cyber Security
+        "CSE_DS", // CSE - Data Science
+        "CSE_AIDS", // CSE - AI & Data Science
         "IoT", // Internet of Things
         "ECE", // Electronics and Communication Engineering
         "MECH", // Mechanical Engineering
@@ -122,9 +140,14 @@ keySchema.methods.takeKey = function(user) {
 };
 
 // Method to return a key
-keySchema.methods.returnKey = function() {
+keySchema.methods.returnKey = function(user) {
   this.status = 'available';
   this.returnedAt = new Date();
+  this.returnedBy = {
+    userId: user._id,
+    name: user.name,
+    email: user.email,
+  };
   this.takenBy = {
     userId: null,
     name: null,

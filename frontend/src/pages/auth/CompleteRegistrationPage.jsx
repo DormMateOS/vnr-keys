@@ -95,6 +95,7 @@ const CompleteRegistrationPage = () => {
     { value: "CSE", label: "Computer Science Engineering" },
     { value: "EEE", label: "Electrical & Electronics Engineering" },
     { value: "CSE-AIML", label: "CSE - Artificial Intelligence & Machine Learning" },
+    { value: "CSE_AIDS", label: "CSE - (CYS,DS) and AI&DS" },
     { value: "IoT", label: "Internet of Things" },
     { value: "ECE", label: "Electronics & Communication Engineering" },
     { value: "MECH", label: "Mechanical Engineering" },

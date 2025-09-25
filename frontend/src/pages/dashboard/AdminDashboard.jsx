@@ -247,6 +247,9 @@ const AdminDashboard = () => {
             >
               <option value="all">All Departments</option>
               <option value="CSE">CSE</option>
+              <option value="CSE_AIDS">CSE</option>
+              {/* <option value="CSE_CYS">CSE_CYS</option>
+              <option value="CSE_DS">CSE_DS</option> */}
               <option value="EEE">EEE</option>
               <option value="AIML">AIML</option>
               <option value="IoT">IoT</option>
