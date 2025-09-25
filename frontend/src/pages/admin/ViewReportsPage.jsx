@@ -290,6 +290,9 @@ const ViewReportsPage = () => {
                 <option value="EEE">EEE</option>
                 <option value="AIML">AIML</option>
                 <option value="IoT">IoT</option>
+                <option value="CSE_AIDS">CSE-(CYS,DS and AI&DS)</option>
+                {/* <option value="CSE_CYS">CSE_CYS</option>
+                <option value="CSE_DS">CSE_DS</option> */}
                 <option value="ECE">ECE</option>
                 <option value="MECH">MECH</option>
                 <option value="CIVIL">CIVIL</option>

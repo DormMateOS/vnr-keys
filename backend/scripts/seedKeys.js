@@ -1345,6 +1345,573 @@ const sampleKeys = [
     "category": "classroom",
     "department": "maths",
     "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E401"],
+    "location": "4th Floor - Block E",
+    "description": "Database Management Systems Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E402"],
+    "location": "4th Floor - Block E",
+    "description": "Big Data Computing Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E403"],
+    "location": "4th Floor - Block E",
+    "description": "Programming for Problem Solving Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E404"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E405"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E406"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E407"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E408"],
+    "location": "4th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E409"],
+    "location": "4th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E410"],
+    "location": "4th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E411"],
+    "location": "4th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E412"],
+    "location": "4th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E413"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E414"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E415"],
+    "location": "4th Floor - Block E",
+    "description": "New Table Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E416"],
+    "location": "4th Floor - Block E",
+    "description": "New Table Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E417"],
+    "location": "4th Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E418"],
+    "location": "4th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E419"],
+    "location": "4th Floor - Block E",
+    "description": "Tutorial Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E420"],
+    "location": "4th Floor - Block E",
+    "description": "Library Room",
+    "category": "library",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E421"],
+    "location": "4th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E422"],
+    "location": "4th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E423"],
+    "location": "4th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E424"],
+    "location": "4th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E425"],
+    "location": "4th Floor - Block E",
+    "description": "HOD Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E426"],
+    "location": "4th Floor - Block E",
+    "description": "Tutorial Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E427"],
+    "location": "4th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E428"],
+    "location": "4th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E429"],
+    "location": "4th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E430"],
+    "location": "4th Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E431"],
+    "location": "4th Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E432"],
+    "location": "4th Floor - Block E",
+    "description": "Department Meeting Hall",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E433"],
+    "location": "4th Floor - Block E",
+    "description": "Department Meeting Hall",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E434"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E435"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E436"],
+    "location": "4th Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E437"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E438"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E439"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E440"],
+    "location": "4th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E501"],
+    "location": "5th Floor - Block E",
+    "description": "Web Technologies Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E502"],
+    "location": "5th Floor - Block E",
+    "description": "Operating Systems and Computer Networks Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E503"],
+    "location": "5th Floor - Block E",
+    "description": "Java Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E504"],
+    "location": "5th Floor - Block E",
+    "description": "Data Visualization Laboratory",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E505"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E506"],
+    "location": "5th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E507"],
+    "location": "5th Floor - Block E",
+    "description": "Design Teaching Lab",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E508"],
+    "location": "5th Floor - Block E",
+    "description": "Design Teaching Lab",
+    "category": "lab",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E509"],
+    "location": "5th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E510"],
+    "location": "5th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E511"],
+    "location": "5th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E512"],
+    "location": "5th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E513"],
+    "location": "5th Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E516"],
+    "location": "5th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E517"],
+    "location": "5th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E518"],
+    "location": "5th Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E519"],
+    "location": "5th Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E522"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E523"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E524"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E525"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E526"],
+    "location": "5th Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E527"],
+    "location": "5th Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "CSE-(CYS,DS) and AI&DS",
+    "frequentlyUsed": false
   }
 ]
 

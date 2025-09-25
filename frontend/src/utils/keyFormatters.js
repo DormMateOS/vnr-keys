@@ -75,6 +75,9 @@ export const getDepartmentLabel = (department) => {
   const departmentMap = {
     'CSE': 'Computer Science Engineering',
     'EEE': 'Electrical and Electronics Engineering',
+    'CSE_AIDS' : 'CSE - (CYS,DS) and AI&DS',
+    'CSE_CYS' : 'CSE - (CYS,DS) and AI&DS',
+    'CSE_DS' : 'CSE - (CYS,DS) and AI&DS',
     'AIML': 'Artificial Intelligence and Machine Learning',
     'IoT': 'Internet of Things',
     'ECE': 'Electronics and Communication Engineering',

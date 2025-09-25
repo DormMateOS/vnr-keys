@@ -344,7 +344,7 @@ export const returnKey = asyncHandler(async (req, res) => {
   const originalUser = key.takenBy?.userId ? await User.findById(key.takenBy.userId) : null;
   const returnedBy = await User.findById(req.userId);
 
-  await key.returnKey();
+  await key.returnKey(returnedBy);
 
   // Create notifications based on who is returning the key
   try {
@@ -387,6 +387,11 @@ export const returnKey = asyncHandler(async (req, res) => {
       email: originalUser.email
     } : null,
     takenAt: key.takenAt,
+    returnedBy: {
+      userId: returnedBy._id,
+      name: returnedBy.name,
+      email: returnedBy.email
+    },
     returnedAt: new Date(),
     frequentlyUsed: key.frequentlyUsed,
     isActive: true,
@@ -443,7 +448,7 @@ export const collectiveReturnKey = asyncHandler(async (req, res) => {
     role: originalUser.role
   } : null;
 
-  await key.returnKey();
+  await key.returnKey(returnedBy);
 
   // Send appropriate notification based on who is returning the key
   try {
@@ -714,8 +719,16 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
   }
   console.log('✅ User found:', originalUser.name, originalUser.email);
 
+  // Get the user performing the return
+  const returnedBy = await User.findById(req.userId);
+  if (!returnedBy) {
+    console.log('❌ User performing return not found with ID:', req.userId);
+    throw new NotFoundError("User performing return not found");
+  }
+  console.log('✅ Returning user found:', returnedBy.name);
+
   // Return the key
-  await key.returnKey();
+  await key.returnKey(returnedBy);
 
   // Create a detailed logbook entry for QR-based key return
   const Logbook = mongoose.model('Logbook');
@@ -734,6 +747,11 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
       email: originalUser.email
     },
     takenAt: key.takenAt,
+    returnedBy: {
+      userId: req.userId,
+      name: req.userName || 'Security',
+      email: req.userEmail
+    },
     returnedAt: new Date(),
     frequentlyUsed: key.frequentlyUsed,
     isActive: true,

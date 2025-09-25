@@ -45,7 +45,7 @@ const SecurityDashboard = () => {
     getAvailableKeys,
     getUnavailableKeys,
     fetchKeys,
-    returnKeyAPI,
+    returnKey,
     initializeSocket,
     disconnectSocket
   } = useKeyStore();
@@ -330,7 +330,7 @@ const SecurityDashboard = () => {
   const handleCollectKey = async (keyId) => {
     try {
       // Skip API notification since we'll show our own
-      const updatedKey = await returnKeyAPI(keyId, true);
+      const updatedKey = await returnKey(keyId, true);
       
       // Show success toast notification
       handleSuccess(`Key ${updatedKey.keyNumber} (${updatedKey.keyName}) collected successfully`);
@@ -344,7 +344,7 @@ const SecurityDashboard = () => {
     
     try {
       // Perform the actual key return
-      const updatedKey = await returnKeyAPI(pendingReturnData.keyId, true);
+      const updatedKey = await returnKey(pendingReturnData.keyId, true);
       
       // Show success toast notification
       handleSuccess(`Key ${pendingReturnData.keyNumber} (${pendingReturnData.keyName}) returned successfully`);
@@ -526,7 +526,7 @@ const SecurityDashboard = () => {
               </div>
 
               <div className="flex gap-3">
-                {/* <button
+                <button
                   onClick={() => {
                     setShowReturnConfirmation(false);
                     setPendingReturnData(null);
@@ -535,7 +535,7 @@ const SecurityDashboard = () => {
                   className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors"
                 >
                   Cancel
-                </button> */}
+                </button>
                 <button
                   onClick={handleConfirmReturn}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"

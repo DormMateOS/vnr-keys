@@ -205,6 +205,17 @@ const KeyCard = ({
             </span>
           </div>
         )}
+        {keyData.status === "available" && keyData.returnedBy && keyData.returnedAt && (
+          <div className="flex items-center gap-2 mb-3 text-gray-400">
+            <User className="w-4 h-4" />
+            <span className="text-sm">
+              Returned by {keyData.returnedBy.name}
+              <span className="text-gray-500 ml-1">
+                • {formatTime(keyData.returnedAt)}
+              </span>
+            </span>
+          </div>
+        )}
 
         {/* QR Code Display */}
         {showQR && qrData && (
