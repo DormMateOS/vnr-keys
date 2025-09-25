@@ -217,7 +217,7 @@ function App() {
 						}
 					>
 						{/* Nested routes for Faculty Dashboard */}
-						<Route index element={<Navigate to="taken" />} />
+						<Route index element={<Navigate to="taken" replace />} />
 						<Route path="taken" element={<MyKeysPage />} />
 						<Route path="keylist" element={<AllKeysPage />} />
 					</Route>
