@@ -679,117 +679,136 @@ export const getKeyUsageAnalytics = asyncHandler(async (req, res) => {
  * Get active users analytics with filters
  */
 export const getActiveUsersAnalytics = asyncHandler(async (req, res) => {
-	const { timeRange = '7d', role = 'all', department = 'all' } = req.query;
+    const { timeRange = '7d', role = 'all', department = 'all' } = req.query;
 
-	// Calculate date range
-	const now = new Date();
-	let startDate;
-	
-	switch (timeRange) {
-		case '1d':
-			startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-			break;
-		case '7d':
-			startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-			break;
-		case '30d':
-			startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-			break;
-		case '90d':
-			startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-			break;
-		default:
-			startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-	}
+    // Calculate date range
+    const now = new Date();
+    let startDate;
+    
+    switch (timeRange) {
+        case '1d':
+            startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+            break;
+        case '7d':
+            startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            break;
+        case '30d':
+            startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            break;
+        case '90d':
+            startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+            break;
+        default:
+            startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    }
 
-	// Build match query for active users
-	const matchQuery = {
-		lastLogin: { $gte: startDate }
-	};
+    // Build match queries
+    const matchQuery = {
+        lastLogin: { $gte: startDate }
+    };
 
-	if (role !== 'all') {
-		matchQuery.role = role;
-	}
+    const recentUsersQuery = {};
 
-	if (department !== 'all') {
-		matchQuery.department = department;
-	}
+    if (role !== 'all') {
+        matchQuery.role = role;
+        recentUsersQuery.role = role;
+    }
 
-	// Get active users count
-	const activeUsersCount = await User.countDocuments(matchQuery);
+    if (department !== 'all') {
+        matchQuery.department = department;
+        recentUsersQuery.department = department;
+    }
 
-	// Get users by role
-	const usersByRole = await User.aggregate([
-		{ $match: matchQuery },
-		{
-			$group: {
-				_id: "$role",
-				count: { $sum: 1 },
-				users: {
-					$push: {
-						id: "$_id",
-						name: "$name",
-						email: "$email",
-						lastLogin: "$lastLogin"
-					}
-				}
-			}
-		}
-	]);
+    // Get data in parallel for better performance
+    const [
+        activeUsersCount,
+        usersByRole,
+        usersByDepartment,
+        loginActivity,
+        recentUsers
+    ] = await Promise.all([
+        User.countDocuments(matchQuery),
+        User.aggregate([
+            { $match: matchQuery },
+            {
+                $group: {
+                    _id: "$role",
+                    count: { $sum: 1 },
+                    users: {
+                        $push: {
+                            id: "$_id",
+                            name: "$name",
+                            email: "$email",
+                            lastLogin: "$lastLogin"
+                        }
+                    }
+                }
+            }
+        ]),
+        User.aggregate([
+            { 
+                $match: {
+                    ...matchQuery,
+                    department: { $exists: true, $ne: null }
+                }
+            },
+            {
+                $group: {
+                    _id: "$department",
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { count: -1 } }
+        ]),
+        User.aggregate([
+            { $match: matchQuery },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { 
+                            format: timeRange === '1d' ? "%H:00" : "%Y-%m-%d", 
+                            date: "$lastLogin" 
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]),
+        User.find(recentUsersQuery)
+            .select('name email role department lastLogin createdAt')
+            .sort({ createdAt: -1 })
+            .limit(10)
+    ]);
 
-	// Get users by department
-	const usersByDepartment = await User.aggregate([
-		{ 
-			$match: {
-				...matchQuery,
-				department: { $exists: true, $ne: null }
-			}
-		},
-		{
-			$group: {
-				_id: "$department",
-				count: { $sum: 1 }
-			}
-		},
-		{ $sort: { count: -1 } }
-	]);
-
-	// Get login activity over time
-	const loginActivity = await User.aggregate([
-		{ $match: matchQuery },
-		{
-			$group: {
-				_id: {
-					$dateToString: { 
-						format: timeRange === '1d' ? "%H:00" : "%Y-%m-%d", 
-						date: "$lastLogin" 
-					}
-				},
-				count: { $sum: 1 }
-			}
-		},
-		{ $sort: { _id: 1 } }
-	]);
-
-	res.status(200).json({
-		success: true,
-		message: "Active users analytics retrieved successfully",
-		data: {
-			timeRange,
-			role,
-			department,
-			activeUsersCount,
-			usersByRole: usersByRole.reduce((acc, item) => {
-				acc[item._id] = {
-					count: item.count,
-					users: item.users
-				};
-				return acc;
-			}, {}),
-			usersByDepartment,
-			loginActivity
-		}
-	});
+    res.status(200).json({
+        success: true,
+        message: "Active users analytics retrieved successfully",
+        data: {
+            timeRange,
+            role,
+            department,
+            activeUsersCount,
+            recentUsers: recentUsers.map(user => ({
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                department: user.department,
+                lastLogin: user.lastLogin,
+                createdAt: user.createdAt
+            })),
+            usersByRole: usersByRole.reduce((acc, item) => {
+                acc[item._id] = {
+                    count: item.count,
+                    users: item.users
+                };
+                return acc;
+            }, {}),
+            usersByDepartment,
+            loginActivity
+        }
+    });
 });
 
 /**
