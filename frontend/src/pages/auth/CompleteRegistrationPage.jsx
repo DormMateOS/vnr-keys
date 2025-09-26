@@ -313,7 +313,7 @@ const CompleteRegistrationPage = () => {
               <IdCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Faculty ID (e.g., FAC001)"
+                placeholder="Faculty ID (e.g., 23071A1234)"
                 value={facultyId}
                 onChange={(e) => setFacultyId(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"

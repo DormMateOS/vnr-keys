@@ -616,11 +616,13 @@ export const useKeyStore = create((set, get) => ({
   },
 
   // Return a key via API
-  returnKeyAPI: async (keyId, skipNotification = false) => {
+  returnKeyAPI: async (keyId, skipNotification = false, returnerId = null) => {
     set({ isLoading: true, error: null });
 
     try {
-      const response = await axios.post(`${API_URL}/${keyId}/return`, {}, {
+      const response = await axios.post(`${API_URL}/${keyId}/return`, {
+        returnerId: returnerId
+      }, {
         withCredentials: true,
       });
 

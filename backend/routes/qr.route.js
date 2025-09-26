@@ -150,13 +150,26 @@ router.post("/batch-return", rolePermissions.adminOrSecurity, asyncHandler(async
   }
 
   // Process returns for all keys
+  const returnedBy = await User.findById(parsedData.returnerId || parsedData.userId); // Use the faculty user's ID
+  const securityUser = await User.findById(req.userId); // Keep track of security user who processed it
+
+  // Store original users before returning keys
+  const keyOriginalUsers = {};
+  for (const key of keys) {
+    if (key.takenBy && key.takenBy.userId) {
+      const originalUser = await User.findById(key.takenBy.userId);
+      if (originalUser) {
+        keyOriginalUsers[key._id.toString()] = originalUser;
+      }
+    }
+  }
+
   const returnResults = await Promise.all(keys.map(async (key) => {
     try {
-      const originalUser = key.takenBy.userId;
-      const returnedBy = await User.findById(req.userId);
+      const originalUser = keyOriginalUsers[key._id.toString()];
 
-      // Return the key
-      await key.returnKey();
+      // Return the key with the security user who processed the return
+      await key.returnKey(returnedBy);
 
       // Log the return
       await AuditService.logKeyReturned(key, returnedBy, req, originalUser, {
@@ -170,7 +183,8 @@ router.post("/batch-return", rolePermissions.adminOrSecurity, asyncHandler(async
       return {
         success: true,
         keyNumber: key.keyNumber,
-        keyId: key._id
+        keyId: key._id,
+        originalUser: originalUser
       };
     } catch (error) {
       console.error(`Error processing key ${key.keyNumber}:`, error);
@@ -191,12 +205,25 @@ router.post("/batch-return", rolePermissions.adminOrSecurity, asyncHandler(async
     );
   }
 
+  // Create notifications for batch return
+  try {
+    const { createBatchReturnNotifications } = await import('../services/notificationService.js');
+    await createBatchReturnNotifications(keys, returnedBy, keyOriginalUsers);
+  } catch (notificationError) {
+    console.error('❌ Error sending batch return notifications:', notificationError);
+  }
+
   res.status(200).json({
     success: true,
     message: `Successfully returned ${keys.length} key(s)`,
     data: {
       keys: returnResults,
       returnId: parsedData.returnId,
+      returnedBy: {
+        id: returnedBy._id,
+        name: returnedBy.name,
+        role: returnedBy.role
+      },
       processedAt: new Date().toISOString()
     }
   });

@@ -16,9 +16,10 @@ export const processBatchQRScanReturn = async (qrData) => {
     // Get the token from cookie or localStorage
     const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
     
-    // Send the QR data to the dedicated batch return endpoint
+    // Send the QR data with returnerId to the dedicated batch return endpoint
     const response = await axios.post(`${config.api.baseUrl}/qr/batch-return`, {
-      qrData: qrData
+      qrData: qrData,
+      returnerId: qrData.returnerId // Pass the returnerId from the security user
     }, {
       withCredentials: true,
       headers: {

@@ -12,9 +12,9 @@ const NotificationResendButton = () => {
     const checkTime = () => {
       const now = new Date();
       const targetTime = new Date();
-      targetTime.setHours(1, 0, 0); // 1:00 AM
+      targetTime.setHours(17, 20, 0, 0); // 5:20 PM
 
-      // Enable if it's past 1:00 AM
+      // Enable if it's past 5:20 PM
       setIsEnabled(now >= targetTime);
     };
 
@@ -41,13 +41,10 @@ const NotificationResendButton = () => {
       // Handle success
       handleSuccess(response.data.message || 'Daily summary notifications resent successfully');
       
-      // You might want to refresh the notifications list after resending
-      // if you have a function to do so, call it here
-      
     } catch (error) {
       // Handle specific error for time restriction
       if (error.response?.status === 400) {
-        handleError('Daily summary notifications can only be resent after 1:00 AM');
+        handleError('Daily summary notifications can only be resent after 5:20 PM');
       } else {
         handleError(error);
       }

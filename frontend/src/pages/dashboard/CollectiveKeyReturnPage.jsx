@@ -156,7 +156,7 @@ const CollectiveKeyReturnPage = () => {
               Volunteer Key Return
             </h1>
             <p className="text-gray-400">
-              Return keys on behalf of other users. Available to Security and Faculty.
+              Return keys on behalf of other Faculty/Staff members
             </p>
           </div>
           <div className="flex items-center space-x-4">
