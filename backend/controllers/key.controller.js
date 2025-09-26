@@ -332,15 +332,6 @@ export const returnKey = asyncHandler(async (req, res) => {
     throw new ConflictError("Key is already available");
   }
 
-  // Only the taker, security, or admin can return
-  if (
-    req.userRole !== 'admin' &&
-    req.userRole !== 'security' &&
-    key.takenBy?.userId?.toString() !== req.userId
-  ) {
-    throw new ValidationError("You can only return keys you have taken");
-  }
-
   // Get the original user who had the key for audit logging
   const originalUser = key.takenBy?.userId ? await User.findById(key.takenBy.userId) : null;
   

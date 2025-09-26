@@ -12,7 +12,7 @@ const VolunteerReturnQRModal = ({
   onQRExpired,
 }) => {
   const [qrData, setQrData] = useState(null);
-  const [timer, setTimer] = useState(300); // 5 minutes in seconds
+  const [timer, setTimer] = useState(60); // 5 minutes in seconds
   const [qrExpired, setQrExpired] = useState(false);
 
   // Generate QR data when modal opens
@@ -20,7 +20,7 @@ const VolunteerReturnQRModal = ({
     if (isOpen && selectedKeys.length > 0) {
       const newQRData = generateBatchReturnQRData(selectedKeys, user.id);
       setQrData(newQRData);
-      setTimer(300); // Reset timer
+      setTimer(60); // Reset timer
       setQrExpired(false);
     }
   }, [isOpen, selectedKeys, user.id]);
@@ -97,7 +97,7 @@ const VolunteerReturnQRModal = ({
           <div className="flex gap-3">
             <button
               onClick={() => {
-                setTimer(300);
+                setTimer(60);
                 setQrExpired(false);
                 const newQRData = generateBatchReturnQRData(selectedKeys, user.id);
                 setQrData(newQRData);

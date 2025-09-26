@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
         "CSE",
         "EEE",
         "CSE-AIML",
-        
+        "CSE_AIDS",
         "IoT",
         "ECE",
         "MECH",
@@ -66,22 +66,6 @@ const userSchema = new mongoose.Schema(
     isVerified: {
       type: Boolean,
       default: true, // All Google OAuth users are automatically verified
-    },
-    // Optional profile fields
-    bio: {
-      type: String,
-      default: "",
-      maxlength: 500,
-    },
-    location: {
-      type: String,
-      default: "",
-      maxlength: 100,
-    },
-    website: {
-      type: String,
-      default: "",
-      maxlength: 200,
     },
     keyUsage: {
       type: Map,

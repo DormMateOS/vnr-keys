@@ -367,8 +367,14 @@ const SecurityDashboard = () => {
     if (!pendingBatchReturn) return;
     
     try {
-      // Process the batch return
-      const result = await processBatchQRScanReturn(pendingBatchReturn);
+      // Use the original faculty user's ID from the QR data as the returnerId
+      const qrDataWithReturnerId = {
+        ...pendingBatchReturn,
+        returnerId: pendingBatchReturn.userId // Use the faculty user's ID who generated the QR
+      };
+      
+      // Process the batch return with the faculty's ID as returner
+      const result = await processBatchQRScanReturn(qrDataWithReturnerId);
       
       // Show success notification
       handleSuccess(result.message || 'Keys returned successfully');
