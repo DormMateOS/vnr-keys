@@ -42,13 +42,13 @@ router.post("/admin/cleanup", rolePermissions.adminOnly, cleanupNotifications); 
 
 // Security & Admin route for resending daily summary
 router.post(
-  "/resend-daily-summary", 
-  rolePermissions.adminOrSecurity, 
+  "/resend-daily-summary",
+  rolePermissions.adminOrSecurity,
   asyncHandler(async (req, res) => {
     // Check if it's after 5:20 PM
     const now = new Date();
     const targetTime = new Date();
-    targetTime.setHours(1, 0, 0); // 5:20 PM
+    targetTime.setHours(17, 20, 0, 0); // 5:20 PM
 
     if (now < targetTime) {
       return res.status(400).json({
@@ -57,12 +57,12 @@ router.post(
       });
     }
 
-    // Generate and send notifications
-    const result = await createDailySummaryNotifications();
+    // Generate and send notifications ONLY to the requester
+    const result = await createDailySummaryNotifications(req.user._id);
 
     res.status(200).json({
       success: true,
-      message: `Successfully sent ${result.totalNotifications} notifications about ${result.totalUnreturnedKeys} unreturned keys`,
+      message: `Successfully sent ${result.totalNotifications} notification(s) about ${result.totalUnreturnedKeys} unreturned keys to you`,
       data: result
     });
   })

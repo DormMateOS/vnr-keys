@@ -729,7 +729,7 @@ export const cleanupExpiredNotifications = async () => {
  * Create daily summary notifications for security and admin
  * @returns {Promise<Object>} Summary of notifications sent
  */
-export const createDailySummaryNotifications = async () => {
+export const createDailySummaryNotifications = async (userId = null) => {
   try {
     console.log('🔍 Generating daily summary at 5:20 PM...');
 
@@ -771,13 +771,53 @@ export const createDailySummaryNotifications = async () => {
       summaryMessage += '\n';
     }
 
-    // Get all security and admin users
+    const notifications = [];
+
+    // 🔹 If userId is provided, send only to that user
+    if (userId) {
+      const user = await User.findById(userId);
+      if (!user) throw new Error(`Requester user not found: ${userId}`);
+
+      const notificationData = {
+        recipient: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        title: `Daily Key Return Summary - ${totalUnreturnedKeys} Keys Pending`,
+        message: summaryMessage,
+        type: 'key_summary',
+        priority: 'medium',
+        metadata: {
+          totalKeys: totalUnreturnedKeys,
+          departmentSummary: keysByDepartment,
+          generatedAt: new Date().toISOString()
+        }
+      };
+
+      try {
+        const notification = await createAndSendNotification(notificationData, {
+          email: true,
+          realTime: true
+        });
+        notifications.push(notification);
+      } catch (err) {
+        console.error(`❌ Failed to create daily summary notification for user ${user._id}:`, err);
+      }
+
+      return {
+        totalNotifications: notifications.length,
+        totalUnreturnedKeys,
+        recipient: user._id
+      };
+    }
+
+    // 🔹 Else, fallback to original logic (all security + admin users)
     const [securityUsers, adminUsers] = await Promise.all([
       User.find({ role: 'security', isVerified: true }),
       User.find({ role: 'admin', isVerified: true })
     ]);
-
-    const notifications = [];
 
     // Send to security users
     for (const user of securityUsers || []) {
