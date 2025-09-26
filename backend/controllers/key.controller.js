@@ -321,6 +321,7 @@ export const takeKey = asyncHandler(async (req, res) => {
  */
 export const returnKey = asyncHandler(async (req, res) => {
   const { keyId } = req.params;
+  const { returnerId } = req.body;
 
   const key = await Key.findById(keyId);
   if (!key) {
@@ -342,7 +343,12 @@ export const returnKey = asyncHandler(async (req, res) => {
 
   // Get the original user who had the key for audit logging
   const originalUser = key.takenBy?.userId ? await User.findById(key.takenBy.userId) : null;
-  const returnedBy = await User.findById(req.userId);
+  
+  // If returnerId is provided and the current user is security/admin, use that as the returner
+  // Otherwise, use the current user as the returner
+  const returnedBy = (returnerId && (req.userRole === 'admin' || req.userRole === 'security')) 
+    ? await User.findById(returnerId)
+    : await User.findById(req.userId);
 
   await key.returnKey(returnedBy);
 

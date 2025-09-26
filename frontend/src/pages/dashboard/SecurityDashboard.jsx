@@ -343,8 +343,8 @@ const SecurityDashboard = () => {
     if (!pendingReturnData) return;
     
     try {
-      // Perform the actual key return
-      const updatedKey = await returnKeyAPI(pendingReturnData.keyId, true);
+      // Perform the actual key return with the returner's ID
+      const updatedKey = await returnKeyAPI(pendingReturnData.keyId, true, pendingReturnData.userId);
       
       // Show success toast notification
       handleSuccess(`Key ${pendingReturnData.keyNumber} (${pendingReturnData.keyName}) returned successfully`);
