@@ -25,6 +25,7 @@ const KeyCard = ({
 }) => {
   const { user } = useAuthStore();
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showCollectModal, setShowCollectModal] = useState(false);
   const [localQRData, setLocalQRData] = useState(null);
   const [isGeneratingQR, setIsGeneratingQR] = useState(false);
   const [qrSecondsLeft, setQrSecondsLeft] = useState(20);
@@ -151,6 +152,10 @@ const KeyCard = ({
     if (onCollectKey) onCollectKey(keyData.id);
   };
 
+  const handleCollectClick = () => {
+    setShowCollectModal(true);
+  };
+
   return (
     <>
       <motion.div
@@ -275,7 +280,7 @@ const KeyCard = ({
           {/* Security: Collect when unavailable */}
           {user?.role === "security" && variant === "unavailable" && (
             <button
-              onClick={handleCollectKey}
+              onClick={handleCollectClick}
               className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
             >
               Collect
@@ -380,6 +385,65 @@ const KeyCard = ({
                 Close
               </button>
             )}
+          </motion.div>
+        </div>
+      )}
+
+      {/* Collect Confirmation Modal */}
+      {showCollectModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gray-800 border border-gray-700 rounded-xl p-6 max-w-sm w-full"
+          >
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h3 className="text-xl font-bold text-white mb-2">
+                Collect Key {keyData.keyNumber}
+              </h3>
+              <p className="text-gray-300 text-center mb-4">
+                Are you sure you want to collect this key?
+              </p>
+
+              {/* Key Details */}
+              <div className="w-full space-y-2 mb-6 bg-gray-900/50 p-4 rounded-lg">
+                <div className="flex items-center gap-2 text-gray-300">
+                  <MapPin className="w-4 h-4" />
+                  <span>{keyData.location}</span>
+                </div>
+                {keyData.takenBy && (
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <User className="w-4 h-4" />
+                    <span>Taken by: {keyData.takenBy.name}</span>
+                  </div>
+                )}
+                {keyData.takenAt && (
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <Clock className="w-4 h-4" />
+                    <span>Taken at: {new Date(keyData.takenAt).toLocaleString()}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setShowCollectModal(false)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    handleCollectKey();
+                    setShowCollectModal(false);
+                  }}
+                  className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
           </motion.div>
         </div>
       )}
