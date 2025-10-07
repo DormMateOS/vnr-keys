@@ -1348,11 +1348,1460 @@ const sampleKeys = [
   },
   {
     "keyNumber": "1",
+    "keyName": ["E001"],
+    "location": "Ground Floor - Block E",
+    "description": "Database Management Systems Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E002"],
+    "location": "Ground Floor - Block E",
+    "description": "Data Mining and Analytics Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E003"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E004"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E005"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E006"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E007"],
+    "location": "Ground Floor - Block E",
+    "description": "Washroom",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E008"],
+    "location": "Ground Floor - Block E",
+    "description": "Washroom",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E009"],
+    "location": "Ground Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E010"],
+    "location": "Ground Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E011"],
+    "location": "Ground Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E012"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E013"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E014"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E015"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E016"],
+    "location": "Ground Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E017"],
+    "location": "Ground Floor - Block E",
+    "description": "Store Room",
+    "category": "storage",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E018"],
+    "location": "Ground Floor - Block E",
+    "description": "MTECH Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E019"],
+    "location": "Ground Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E020"],
+    "location": "Ground Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E021"],
+    "location": "Ground Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E022"],
+    "location": "Ground Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E023"],
+    "location": "Ground Floor - Block E",
+    "description": "Store Room",
+    "category": "storage",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E024"],
+    "location": "Ground Floor - Block E",
+    "description": "Tutorial Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E025"],
+    "location": "Ground Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E026"],
+    "location": "Ground Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E027"],
+    "location": "Ground Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E028"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E029"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E030"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E031"],
+    "location": "Ground Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E032"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E033"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E034"],
+    "location": "Ground Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E035"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E036"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E037"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E038"],
+    "location": "Ground Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E101"],
+    "location": "1st Floor - Block E",
+    "description": "Artificial Intelligence Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E102"],
+    "location": "1st Floor - Block E",
+    "description": "Computer Network Laboratory",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E103"],
+    "location": "1st Floor - Block E",
+    "description": "Software Design using UML",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E104"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E105"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E106"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E107"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E108"],
+    "location": "1st Floor - Block E",
+    "description": "Washroom",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E109"],
+    "location": "1st Floor - Block E",
+    "description": "Washroom",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E110"],
+    "location": "1st Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E111"],
+    "location": "1st Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E112"],
+    "location": "1st Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E113"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E114"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room But No Board",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E115"],
+    "location": "1st Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E116"],
+    "location": "1st Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E117"],
+    "location": "1st Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E118"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E119"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E120"],
+    "location": "1st Floor - Block E",
+    "description": "Library Room",
+    "category": "library",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E121"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E122"],
+    "location": "1st Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E123"],
+    "location": "1st Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E124"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E125"],
+    "location": "1st Floor - Block E",
+    "description": "HOD Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E126"],
+    "location": "1st Floor - Block E",
+    "description": "Tutorial Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E127"],
+    "location": "1st Floor - Block E",
+    "description": "Corporate Room, Department Meeting Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E128"],
+    "location": "1st Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E129"],
+    "location": "1st Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E130"],
+    "location": "1st Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E131"],
+    "location": "1st Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E132"],
+    "location": "1st Floor - Block E",
+    "description": "Department Meeting Room Hall",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E133"],
+    "location": "1st Floor - Block E",
+    "description": "Department Meeting Room Hall",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E134"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E135"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E136"],
+    "location": "1st Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E137"],
+    "location": "1st Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E138"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E139"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E140"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E141"],
+    "location": "1st Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "CSE",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E201"],
+    "location": "2nd Floor - Block E",
+    "description": "Data Engineering Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E202"],
+    "location": "2nd Floor - Block E",
+    "description": "Image Processing and Computer Vision Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E203"],
+    "location": "2nd Floor - Block E",
+    "description": "Occupancy Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E204"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E205"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E206"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E207"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E208"],
+    "location": "2nd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E209"],
+    "location": "2nd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E210"],
+    "location": "2nd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E211"],
+    "location": "2nd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E212"],
+    "location": "2nd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E213"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E214"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E215"],
+    "location": "2nd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E216"],
+    "location": "2nd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E217"],
+    "location": "2nd Floor - Block E",
+    "description": "Programming for Problem Solving Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E218"],
+    "location": "2nd Floor - Block E",
+    "description": "Camera - C.C.T.V Room",
+    "category": "security",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E219"],
+    "location": "2nd Floor - Block E",
+    "description": "Tutorial Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E220"],
+    "location": "2nd Floor - Block E",
+    "description": "Library Room",
+    "category": "library",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E221"],
+    "location": "2nd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E222"],
+    "location": "2nd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E223"],
+    "location": "2nd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E224"],
+    "location": "2nd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E225"],
+    "location": "2nd Floor - Block E",
+    "description": "HOD Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E226"],
+    "location": "2nd Floor - Block E",
+    "description": "Store Room",
+    "category": "storage",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E227"],
+    "location": "2nd Floor - Block E",
+    "description": "Corporate Meeting Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E228"],
+    "location": "2nd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E229"],
+    "location": "2nd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E230"],
+    "location": "2nd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E231"],
+    "location": "2nd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E232"],
+    "location": "2nd Floor - Block E",
+    "description": "Department Meeting Hall Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E233"],
+    "location": "2nd Floor - Block E",
+    "description": "Department Meeting Hall Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E234"],
+    "location": "2nd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E235"],
+    "location": "2nd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E236"],
+    "location": "2nd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E237"],
+    "location": "2nd Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E238"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E239"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E240"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E241"],
+    "location": "2nd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E301"],
+    "location": "3rd Floor - Block E",
+    "description": "Devops Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E302"],
+    "location": "3rd Floor - Block E",
+    "description": "Natural Language Processing Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E303"],
+    "location": "3rd Floor - Block E",
+    "description": "Embedded GPU Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E304"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E305"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E306"],
+    "location": "3rd Floor - Block E",
+    "description": "D.B.M.S. M. L",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E307"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E308"],
+    "location": "3rd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E309"],
+    "location": "3rd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E310"],
+    "location": "3rd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E311"],
+    "location": "3rd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E312"],
+    "location": "3rd Floor - Block E",
+    "description": "Wash Room",
+    "category": "other",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E313"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E314"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E315"],
+    "location": "3rd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E316"],
+    "location": "3rd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E317"],
+    "location": "3rd Floor - Block E",
+    "description": "Programming for Problem Solving Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E318"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E319"],
+    "location": "3rd Floor - Block E",
+    "description": "Tutorial Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E320"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E321"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E322"],
+    "location": "3rd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E323"],
+    "location": "3rd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E324"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E325"],
+    "location": "3rd Floor - Block E",
+    "description": "Store Room",
+    "category": "storage",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E326"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E327"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E328"],
+    "location": "3rd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E329"],
+    "location": "3rd Floor - Block E",
+    "description": "Panel Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E330"],
+    "location": "3rd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E331"],
+    "location": "3rd Floor - Block E",
+    "description": "Programming for Problem Solving Laboratory",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E332"],
+    "location": "3rd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E333"],
+    "location": "3rd Floor - Block E",
+    "description": "Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E334"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room and Lab",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E335"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E336"],
+    "location": "3rd Floor - Block E",
+    "description": "Staff Room",
+    "category": "office",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E337"],
+    "location": "3rd Floor - Block E",
+    "description": "Seminar Hall",
+    "category": "auditorium",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E338"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E339"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E340"],
+    "location": "3rd Floor - Block E",
+    "description": "Class Room",
+    "category": "classroom",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
+    "keyName": ["E341"],
+    "location": "3rd Floor - Block E",
+    "description": "M.TECH CSE & SE Lab",
+    "category": "lab",
+    "department": "AIML",
+    "frequentlyUsed": false
+  },
+  {
+    "keyNumber": "1",
     "keyName": ["E401"],
     "location": "4th Floor - Block E",
     "description": "Database Management Systems Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1361,7 +2810,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Big Data Computing Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1370,7 +2819,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Programming for Problem Solving Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1379,7 +2828,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1388,7 +2837,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1397,7 +2846,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1406,7 +2855,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1415,7 +2864,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1424,7 +2873,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1433,7 +2882,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1442,7 +2891,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1451,7 +2900,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1460,7 +2909,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1469,7 +2918,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1478,7 +2927,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "New Table Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1487,7 +2936,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "New Table Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1496,7 +2945,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Lab",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1505,7 +2954,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1514,7 +2963,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Tutorial Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1523,7 +2972,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Library Room",
     "category": "library",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1532,7 +2981,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1541,7 +2990,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1550,7 +2999,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1559,7 +3008,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1568,7 +3017,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "HOD Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1577,7 +3026,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Tutorial Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1586,7 +3035,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1595,7 +3044,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1604,7 +3053,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1613,7 +3062,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Lab",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1622,7 +3071,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Lab",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1631,7 +3080,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Department Meeting Hall",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1640,7 +3089,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Department Meeting Hall",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1649,7 +3098,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1658,7 +3107,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1667,7 +3116,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Seminar Hall",
     "category": "auditorium",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1676,7 +3125,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1685,7 +3134,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1694,7 +3143,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1703,7 +3152,7 @@ const sampleKeys = [
     "location": "4th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1712,7 +3161,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Web Technologies Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1721,7 +3170,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Operating Systems and Computer Networks Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1730,7 +3179,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Java Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1739,7 +3188,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Data Visualization Laboratory",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1748,7 +3197,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1757,7 +3206,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1766,7 +3215,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Design Teaching Lab",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1775,7 +3224,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Design Teaching Lab",
     "category": "lab",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1784,7 +3233,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1793,7 +3242,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1802,7 +3251,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1811,7 +3260,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1820,7 +3269,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Wash Room",
     "category": "other",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1829,7 +3278,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1838,7 +3287,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1847,7 +3296,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Panel Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1856,7 +3305,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Staff Room",
     "category": "office",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1865,7 +3314,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1874,7 +3323,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1883,7 +3332,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1892,7 +3341,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1901,7 +3350,7 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Class Room",
     "category": "classroom",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   },
   {
@@ -1910,18 +3359,17 @@ const sampleKeys = [
     "location": "5th Floor - Block E",
     "description": "Seminar Hall",
     "category": "auditorium",
-    "department": "CSE-(CYS,DS) and AI&DS",
+    "department": "CSE_AIDS",
     "frequentlyUsed": false
   }
 ]
 
 // Transform the data to fix keyName arrays and department values
 const transformedKeys = sampleKeys.map((key, index) => {
-  const keyName = Array.isArray(key.keyName) ? key.keyName.join('/') : key.keyName;
-  const location = key.location.replace(/\s+/g, '_').replace(/-/g, '_');
+  const keyName = Array.isArray(key.keyName) ? key.keyName.join(',') : key.keyName;
   return {
     ...key,
-    keyNumber: `${keyName}_${location}_${index}`, // Make unique with location and index
+    keyNumber: keyName, // Use the original keyName as keyNumber (e.g., "E001", "E002", "E101")
     keyName: keyName,
     // Normalize department to match enum values in key.model.js
     department: (() => {
@@ -1955,7 +3403,7 @@ const transformedKeys = sampleKeys.map((key, index) => {
         .replace(/\s+/g, '')
         .toUpperCase();
 
-      // Handle CSE combined variants like CSE-(CYS,DS) and AI&DS
+      // Handle CSE combined variants like CSE_AIDS
       if (normalized.startsWith('CSE')) {
         // Normalize all CSE-related variants to the single frontend-supported enum
         // so department cards/counts align with the UI which shows CYS, DS and AI&DS
