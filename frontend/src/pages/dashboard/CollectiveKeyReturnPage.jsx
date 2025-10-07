@@ -58,13 +58,21 @@ const CollectiveKeyReturnPage = () => {
     fetchAllTakenKeys();
   }, [fetchAllTakenKeys]);
 
-  // Filter keys based on search query
-  const filteredKeys = takenKeys.filter(key => 
-    key.keyNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    key.keyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    key.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    key.takenBy?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter keys: exclude user's own keys and apply search query
+  const filteredKeys = takenKeys.filter(key => {
+    // First exclude user's own keys
+    if (key.takenBy?.email === user?.email) {
+      return false;
+    }
+    
+    // Then apply search filters
+    return (
+      key.keyNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      key.keyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      key.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      key.takenBy?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const handleKeySelect = (keyId) => {
     setSelectedKeys(prev =>
