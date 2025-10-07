@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 import axios from 'axios';
 import socketService from '../services/socketService.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:6203/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL_LOCAL || 'http://localhost:6203/api';
 
 // Configure axios for notifications to use cookies like the auth store
 axios.defaults.withCredentials = true;
