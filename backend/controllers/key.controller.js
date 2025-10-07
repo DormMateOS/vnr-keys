@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Key from "../models/key.model.js";
 import User from "../models/user.model.js";
+import { Logbook } from "../models/logbook.model.js";
 import { asyncHandler } from "../utils/errorHandler.js";
 import {
   ValidationError,
@@ -265,7 +266,6 @@ export const takeKey = asyncHandler(async (req, res) => {
   await AuditService.logKeyTaken(key, user, req);
 
   // Create a detailed logbook entry for key taken
-  const Logbook = mongoose.model('Logbook');
   await Logbook.create({
     keyNumber: key.keyNumber,
     keyName: key.keyName,
@@ -379,36 +379,56 @@ export const returnKey = asyncHandler(async (req, res) => {
   // Log the return operation
   await AuditService.logKeyReturned(key, returnedBy, req, originalUser);
 
-  // Create a detailed logbook entry for key return
-  const Logbook = mongoose.model('Logbook');
-  await Logbook.create({
+  // Update the existing logbook entry for key return (instead of creating new one)
+  
+  // Find the most recent logbook entry for this key that hasn't been returned yet
+  const existingLogEntry = await Logbook.findOne({
     keyNumber: key.keyNumber,
-    keyName: key.keyName,
-    location: key.location,
-    status: 'available',
-    category: key.category,
-    department: key.department,
-    block: key.block,
-    description: key.description,
-    takenBy: originalUser ? {
-      userId: originalUser._id,
-      name: originalUser.name,
-      email: originalUser.email
-    } : null,
-    takenAt: key.takenAt,
-    returnedBy: {
+    status: 'unavailable',
+    returnedAt: null
+  }).sort({ createdAt: -1 });
+
+  if (existingLogEntry) {
+    // Update the existing entry with return information
+    existingLogEntry.status = 'available';
+    existingLogEntry.returnedBy = {
       userId: returnedBy._id,
       name: returnedBy.name,
       email: returnedBy.email
-    },
-    returnedAt: new Date(),
-    frequentlyUsed: key.frequentlyUsed,
-    isActive: true,
-    recordedBy: {
-      userId: returnedBy._id,
-      role: returnedBy.role
-    }
-  });
+    };
+    existingLogEntry.returnedAt = new Date();
+    await existingLogEntry.save();
+  } else {
+    // Fallback: Create new entry if no existing entry found (shouldn't happen normally)
+    await Logbook.create({
+      keyNumber: key.keyNumber,
+      keyName: key.keyName,
+      location: key.location,
+      status: 'available',
+      category: key.category,
+      department: key.department,
+      block: key.block,
+      description: key.description,
+      takenBy: originalUser ? {
+        userId: originalUser._id,
+        name: originalUser.name,
+        email: originalUser.email
+      } : null,
+      takenAt: key.takenAt,
+      returnedBy: {
+        userId: returnedBy._id,
+        name: returnedBy.name,
+        email: returnedBy.email
+      },
+      returnedAt: new Date(),
+      frequentlyUsed: key.frequentlyUsed,
+      isActive: true,
+      recordedBy: {
+        userId: returnedBy._id,
+        role: returnedBy.role
+      }
+    });
+  }
 
   // Emit real-time update
   emitKeyReturned(key, req.userId);
@@ -485,6 +505,57 @@ export const collectiveReturnKey = asyncHandler(async (req, res) => {
     reason: reason || "Volunteer Key Return",
     isCollectiveReturn: true
   });
+
+  // Update the existing logbook entry for volunteer key return (instead of creating new one)
+  
+  // Find the most recent logbook entry for this key that hasn't been returned yet
+  const existingLogEntry = await Logbook.findOne({
+    keyNumber: key.keyNumber,
+    status: 'unavailable',
+    returnedAt: null
+  }).sort({ createdAt: -1 });
+
+  if (existingLogEntry) {
+    // Update the existing entry with return information
+    existingLogEntry.status = 'available';
+    existingLogEntry.returnedBy = {
+      userId: returnedBy._id,
+      name: returnedBy.name,
+      email: returnedBy.email
+    };
+    existingLogEntry.returnedAt = new Date();
+    await existingLogEntry.save();
+  } else {
+    // Fallback: Create new entry if no existing entry found (shouldn't happen normally)
+    await Logbook.create({
+      keyNumber: key.keyNumber,
+      keyName: key.keyName,
+      location: key.location,
+      status: 'available',
+      category: key.category,
+      department: key.department,
+      block: key.block,
+      description: key.description,
+      takenBy: originalUser ? {
+        userId: originalUser._id,
+        name: originalUser.name,
+        email: originalUser.email
+      } : null,
+      takenAt: key.takenAt,
+      returnedBy: {
+        userId: returnedBy._id,
+        name: returnedBy.name,
+        email: returnedBy.email
+      },
+      returnedAt: new Date(),
+      frequentlyUsed: key.frequentlyUsed,
+      isActive: true,
+      recordedBy: {
+        userId: returnedBy._id,
+        role: returnedBy.role
+      }
+    });
+  }
 
   // Emit real-time update
   emitKeyReturned(key, req.userId);
@@ -740,36 +811,56 @@ export const qrScanReturn = asyncHandler(async (req, res) => {
   // Return the key
   await key.returnKey(returnedBy);
 
-  // Create a detailed logbook entry for QR-based key return
-  const Logbook = mongoose.model('Logbook');
-  await Logbook.create({
+  // Update the existing logbook entry for QR-based key return (instead of creating new one)
+  
+  // Find the most recent logbook entry for this key that hasn't been returned yet
+  const existingLogEntry = await Logbook.findOne({
     keyNumber: key.keyNumber,
-    keyName: key.keyName,
-    location: key.location,
-    status: 'available',
-    category: key.category,
-    department: key.department,
-    block: key.block,
-    description: key.description,
-    takenBy: {
-      userId: originalUser._id,
-      name: originalUser.name,
-      email: originalUser.email
-    },
-    takenAt: key.takenAt,
-    returnedBy: {
+    status: 'unavailable',
+    returnedAt: null
+  }).sort({ createdAt: -1 });
+
+  if (existingLogEntry) {
+    // Update the existing entry with return information
+    existingLogEntry.status = 'available';
+    existingLogEntry.returnedBy = {
       userId: returnedBy._id,
       name: returnedBy.name,
       email: returnedBy.email
-    },
-    returnedAt: new Date(),
-    frequentlyUsed: key.frequentlyUsed,
-    isActive: true,
-    recordedBy: {
-      userId: req.userId,
-      role: req.userRole
-    }
-  });
+    };
+    existingLogEntry.returnedAt = new Date();
+    await existingLogEntry.save();
+  } else {
+    // Fallback: Create new entry if no existing entry found (shouldn't happen normally)
+    await Logbook.create({
+      keyNumber: key.keyNumber,
+      keyName: key.keyName,
+      location: key.location,
+      status: 'available',
+      category: key.category,
+      department: key.department,
+      block: key.block,
+      description: key.description,
+      takenBy: {
+        userId: originalUser._id,
+        name: originalUser.name,
+        email: originalUser.email
+      },
+      takenAt: key.takenAt,
+      returnedBy: {
+        userId: returnedBy._id,
+        name: returnedBy.name,
+        email: returnedBy.email
+      },
+      returnedAt: new Date(),
+      frequentlyUsed: key.frequentlyUsed,
+      isActive: true,
+      recordedBy: {
+        userId: req.userId,
+        role: req.userRole
+      }
+    });
+  }
 
   // Send notification based on who is returning the key
   try {
@@ -885,7 +976,6 @@ export const qrScanRequest = asyncHandler(async (req, res) => {
   await key.takeKey(requestingUser);
 
   // Create a detailed logbook entry for QR-based key request
-  const Logbook = mongoose.model('Logbook');
   await Logbook.create({
     keyNumber: key.keyNumber,
     keyName: key.keyName,

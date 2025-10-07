@@ -6,6 +6,7 @@ import Key from '../models/key.model.js';
 import { NotFoundError, ValidationError, ConflictError } from '../utils/errorHandler.js';
 import mongoose from 'mongoose';
 import User from '../models/user.model.js';
+import { Logbook } from '../models/logbook.model.js';
 import { emitKeyReturned } from '../services/socketService.js';
 import AuditService from '../services/auditService.js';
 
@@ -170,6 +171,55 @@ router.post("/batch-return", rolePermissions.adminOrSecurity, asyncHandler(async
 
       // Return the key with the security user who processed the return
       await key.returnKey(returnedBy);
+
+      // Update the existing logbook entry for batch return (instead of creating new one)
+      const existingLogEntry = await Logbook.findOne({
+        keyNumber: key.keyNumber,
+        status: 'unavailable',
+        returnedAt: null
+      }).sort({ createdAt: -1 });
+
+      if (existingLogEntry) {
+        // Update the existing entry with return information
+        existingLogEntry.status = 'available';
+        existingLogEntry.returnedBy = {
+          userId: returnedBy._id,
+          name: returnedBy.name,
+          email: returnedBy.email
+        };
+        existingLogEntry.returnedAt = new Date();
+        await existingLogEntry.save();
+      } else {
+        // Fallback: Create new entry if no existing entry found (shouldn't happen normally)
+        await Logbook.create({
+          keyNumber: key.keyNumber,
+          keyName: key.keyName,
+          location: key.location,
+          status: 'available',
+          category: key.category,
+          department: key.department,
+          block: key.block,
+          description: key.description,
+          takenBy: originalUser ? {
+            userId: originalUser._id,
+            name: originalUser.name,
+            email: originalUser.email
+          } : null,
+          takenAt: key.takenAt,
+          returnedBy: {
+            userId: returnedBy._id,
+            name: returnedBy.name,
+            email: returnedBy.email
+          },
+          returnedAt: new Date(),
+          frequentlyUsed: key.frequentlyUsed,
+          isActive: true,
+          recordedBy: {
+            userId: returnedBy._id,
+            role: returnedBy.role
+          }
+        });
+      }
 
       // Log the return
       await AuditService.logKeyReturned(key, returnedBy, req, originalUser, {
