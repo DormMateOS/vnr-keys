@@ -1923,24 +1923,57 @@ const transformedKeys = sampleKeys.map((key, index) => {
     ...key,
     keyNumber: `${keyName}_${location}_${index}`, // Make unique with location and index
     keyName: keyName,
-    department: key.department === 'class' ? 'COMMON' : 
-              key.department === 'Students' ? 'COMMON' :
-              key.department === 'SSC' ? 'ADMIN' :
-              key.department === 'Transport' ? 'ADMIN' :
-              key.department === 'KS' ? 'ADMIN' :
-              key.department === 'ENG' ? 'COMMON' :
-              key.department === 'Staff' ? 'ADMIN' :
-              key.department === 'H&S' ? 'COMMON' :
-              key.department === 'maths' ? 'COMMON' :
-              key.department === 'physics' ? 'COMMON' :
-              key.department === 'ALFago' ? 'COMMON' :
-              key.department === '.' ? 'COMMON' :
-              key.department === '-' ? 'COMMON' :
-              key.department === 'No' ? 'COMMON' :
-              key.department === null ? 'COMMON' :
-              key.department === 'EIE' ? 'EEE' :
-              key.department === 'ME' ? 'MECH' :
-              key.department || 'COMMON',
+    // Normalize department to match enum values in key.model.js
+    department: (() => {
+      const d = (key.department || '').toString().trim();
+      if (!d || d === 'class' || d === 'Students' || d === '.' || d === '-' || d === 'No') return 'COMMON';
+      const map = {
+        'SSC': 'ADMIN',
+        'Transport': 'ADMIN',
+        'KS': 'ADMIN',
+        'Staff': 'ADMIN',
+        'ENG': 'COMMON',
+        'H&S': 'COMMON',
+        'maths': 'COMMON',
+        'physics': 'COMMON',
+        'ALFago': 'COMMON',
+        'EIE': 'EEE',
+        'ME': 'MECH',
+        'IT': 'IT',
+        'CSE': 'CSE',
+        'ECE': 'ECE',
+        'AIML': 'AIML',
+        'IoT': 'IoT',
+        'CIVIL': 'CIVIL',
+        'ADMIN': 'ADMIN',
+      };
+
+      // Common messy variants mapping
+      const normalized = d
+        .replace(/&/g, 'AND')
+        .replace(/[()]/g, '')
+        .replace(/\s+/g, '')
+        .toUpperCase();
+
+      // Handle CSE combined variants like CSE-(CYS,DS) and AI&DS
+      if (normalized.startsWith('CSE')) {
+        // Normalize all CSE-related variants to the single frontend-supported enum
+        // so department cards/counts align with the UI which shows CYS, DS and AI&DS
+        if (normalized.includes('CYS') || normalized.includes('DS') || normalized.includes('AIDS') || normalized.includes('AI')) return 'CSE_AIDS';
+        return 'CSE';
+      }
+
+      // Direct map check
+      if (map[normalized]) return map[normalized];
+
+      // If normalized contains key tokens
+      if (normalized.includes('AIML') || normalized.includes('AI')) return 'AIML';
+      if (normalized.includes('EEE')) return 'EEE';
+      if (normalized.includes('ME')) return 'MECH';
+
+      // Fallback to COMMON to avoid failing schema validation
+      return 'COMMON';
+    })(),
     category: key.category === 'facility' ? 'other' : key.category
   };
 });
