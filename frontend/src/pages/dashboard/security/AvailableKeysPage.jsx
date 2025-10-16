@@ -11,6 +11,7 @@ const AvailableKeysPage = () => {
     selectedDepartment, 
     keys, 
     handleCollectKey, 
+    handleManualAssign,
     handleDepartmentClick, 
     handleBackToListing 
   } = useOutletContext();
@@ -28,6 +29,7 @@ const AvailableKeysPage = () => {
           searchQuery={searchQuery}
           keys={keys}
           onCollectKey={handleCollectKey}
+          onManualAssign={handleManualAssign}
           userRole="security"
         />
       )}
@@ -40,6 +42,7 @@ const AvailableKeysPage = () => {
           searchQuery={searchQuery} // Pass search query to filter department keys
           onRequestKey={() => {}} // Security doesn't request keys
           onToggleFrequent={() => {}} // Not applicable for security
+          onManualAssign={handleManualAssign}
           onBack={handleBackToListing}
           userRole="security"
         />

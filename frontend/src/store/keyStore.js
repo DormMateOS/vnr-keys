@@ -615,6 +615,38 @@ export const useKeyStore = create((set, get) => ({
     }
   },
 
+  // Manually assign a key via API (security only)
+  manualAssignKeyAPI: async (keyId, keyTakerName) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(`${API_URL}/${keyId}/manual-assign`, {
+        keyTakerName: keyTakerName
+      }, {
+        withCredentials: true,
+      });
+
+      const updatedKey = transformKeyData(response.data.data.key);
+      const { keys } = get();
+      const updatedKeys = keys.map(key =>
+        key.id === keyId ? updatedKey : key
+      );
+
+      set({ keys: updatedKeys, isLoading: false });
+      handleSuccess(response.data.message);
+      return {
+        key: updatedKey,
+        assignedTo: response.data.data.assignedTo,
+        assignedBy: response.data.data.assignedBy
+      };
+    } catch (error) {
+      console.error("Error manually assigning key:", error);
+      const errorMessage = handleError(error);
+      set({ error: errorMessage, isLoading: false });
+      throw error;
+    }
+  },
+
   // Return a key via API
   returnKeyAPI: async (keyId, skipNotification = false, returnerId = null) => {
     set({ isLoading: true, error: null });

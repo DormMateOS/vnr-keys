@@ -8,7 +8,9 @@ const SearchResults = ({
   onCollectKey, 
   onToggleFrequent,
   onReturnKey,
-  userRole = "faculty" // "faculty" or "security"
+  onManualAssign,
+  userRole = "faculty", // "faculty" or "security"
+  variant = "all" // "all" or "taken"
 }) => {
   // Filter keys based on search query
   const filteredKeys = keys.filter(key => 
@@ -55,10 +57,12 @@ const SearchResults = ({
             <KeyCard
               key={key.id}
               keyData={key}
+              variant={variant}
               onRequestKey={onRequestKey}
               onCollectKey={onCollectKey}
               onToggleFrequent={onToggleFrequent}
               onReturnKey={onReturnKey}
+              onManualAssign={onManualAssign}
               userRole={userRole}
             />
           ))}

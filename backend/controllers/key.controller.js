@@ -950,6 +950,104 @@ export const qrScanRequest = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Manually assign a key to a person (security only)
+ */
+export const manualAssignKey = asyncHandler(async (req, res) => {
+  const { keyId } = req.params;
+  const { keyTakerName } = req.body;
+
+  if (!keyTakerName || !keyTakerName.trim()) {
+    throw new ValidationError("Key taker name is required");
+  }
+
+  const key = await Key.findById(keyId);
+  if (!key) {
+    throw new NotFoundError("Key not found");
+  }
+
+  if (key.status === 'unavailable') {
+    throw new ConflictError("Key is already taken");
+  }
+
+  const assignedBy = await User.findById(req.userId);
+  if (!assignedBy) {
+    throw new NotFoundError("User not found");
+  }
+
+  // Create a temporary user object for the manual assignment
+  const manualUser = {
+    _id: new mongoose.Types.ObjectId(), // Generate a temporary ID
+    name: keyTakerName.trim(),
+    email: `manual-@temp.local`, // Temporary email
+    role: 'manual'
+  };
+
+  // Update key with manual assignment
+  key.status = 'unavailable';
+  key.takenBy = {
+    userId: manualUser._id,
+    name: manualUser.name,
+    email: manualUser.email
+  };
+  key.takenAt = new Date();
+
+  await key.save();
+
+  // Log the manual assignment
+  await AuditService.logKeyTaken(key, manualUser, req, {
+    isManualAssignment: true,
+    assignedBy: assignedBy._id
+  });
+
+  // Create a detailed logbook entry for manual key assignment
+  const Logbook = mongoose.model('Logbook');
+  await Logbook.create({
+    keyNumber: key.keyNumber,
+    keyName: key.keyName,
+    location: key.location,
+    status: 'unavailable',
+    category: key.category,
+    department: key.department,
+    block: key.block,
+    description: key.description,
+    takenBy: {
+      userId: manualUser._id,
+      name: manualUser.name,
+      email: manualUser.email
+    },
+    takenAt: new Date(),
+    returnedAt: null,
+    frequentlyUsed: key.frequentlyUsed,
+    isActive: true,
+    recordedBy: {
+      userId: assignedBy._id,
+      role: assignedBy.role
+    },
+    notes: `Manual assignment by ${assignedBy.name} (${assignedBy.role})`
+  });
+
+  // Emit real-time update
+  emitKeyTaken(key, req.userId);
+
+  res.status(200).json({
+    success: true,
+    message: `Key ${key.keyNumber} (${key.keyName}) assigned to ${keyTakerName} successfully`,
+    data: { 
+      key,
+      assignedTo: {
+        name: manualUser.name,
+        isManualAssignment: true
+      },
+      assignedBy: {
+        id: assignedBy._id,
+        name: assignedBy.name,
+        role: assignedBy.role
+      }
+    },
+  });
+});
+
+/**
  * Cleanup inactive keys (admin only) - permanently delete keys that have been inactive for more than 30 days
  */
 export const cleanupInactiveKeys = asyncHandler(async (req, res) => {
