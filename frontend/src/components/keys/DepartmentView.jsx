@@ -28,6 +28,7 @@ const DepartmentView = ({
   keys,
   searchQuery,
   onRequestKey,
+  onManualAssign,
   onBack,
 }) => {
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
@@ -99,6 +100,7 @@ const DepartmentView = ({
 							keyData={key}
 							variant="default"
 							onRequestKey={onRequestKey}
+							onManualAssign={onManualAssign}
 						/>
 					))
 				)}

@@ -17,6 +17,7 @@ import {
   toggleFrequentlyUsed,
   qrScanReturn,
   qrScanRequest,
+  manualAssignKey,
   // cleanupInactiveKeys,
 } from "../controllers/key.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
@@ -68,6 +69,7 @@ router.use("/:keyId/*", (req, res, next) => {
 });
 
 router.post("/:keyId/take", rolePermissions.adminOrFaculty, takeKey); // Take a key (faculty/admin)
+router.post("/:keyId/manual-assign", rolePermissions.adminOrSecurity, manualAssignKey); // Manually assign a key (admin/security only)
 router.post("/:keyId/return", returnKey); // Return a key (any user can return their own key, security/admin can return any)
 router.post("/:keyId/collective-return", rolePermissions.adminOrSecurityOrFaculty, collectiveReturnKey); // Volunteer Key Return (security/faculty/admin)
 router.post("/:keyId/toggle-frequent", toggleFrequentlyUsed); // Toggle frequently used status

@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import socketService from "../../services/socketService.js";
 import { config } from "../../utils/config.js";
 import { useAuthStore } from "../../store/authStore";
+import ManualKeyAssignmentModal from "./ManualKeyAssignmentModal";
 
 const KeyCard = ({
   keyData,
@@ -19,6 +20,7 @@ const KeyCard = ({
   onRequestKey,
   onCollectKey,
   onReturnKey,
+  onManualAssign,
   showQR = false,
   qrData = null,
   usageCount,
@@ -26,6 +28,7 @@ const KeyCard = ({
   const { user } = useAuthStore();
   const [showQRModal, setShowQRModal] = useState(false);
   const [showCollectModal, setShowCollectModal] = useState(false);
+  const [showManualAssignModal, setShowManualAssignModal] = useState(false);
   const [localQRData, setLocalQRData] = useState(null);
   const [isGeneratingQR, setIsGeneratingQR] = useState(false);
   const [qrSecondsLeft, setQrSecondsLeft] = useState(20);
@@ -156,6 +159,16 @@ const KeyCard = ({
     setShowCollectModal(true);
   };
 
+  const handleManualAssignClick = () => {
+    setShowManualAssignModal(true);
+  };
+
+  const handleManualAssign = async (keyTakerName) => {
+    if (onManualAssign) {
+      await onManualAssign(keyData.id, keyTakerName);
+    }
+  };
+
   return (
     <>
       <motion.div
@@ -274,6 +287,19 @@ const KeyCard = ({
                   Show Return QR
                 </>
               )}
+            </button>
+          )}
+
+          {/* Security/Admin: Manual assign when available */}
+          {(user?.role === "security" || user?.role === "admin") && 
+            variant === "default" && 
+            keyData.status === "available" && (
+            <button
+              onClick={handleManualAssignClick}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+            >
+              <User className="w-4 h-4" />
+              Assign Key
             </button>
           )}
 
@@ -447,6 +473,14 @@ const KeyCard = ({
           </motion.div>
         </div>
       )}
+
+      {/* Manual Key Assignment Modal */}
+      <ManualKeyAssignmentModal
+        isOpen={showManualAssignModal}
+        onClose={() => setShowManualAssignModal(false)}
+        onConfirm={handleManualAssign}
+        keyData={keyData}
+      />
     </>
   );
 };
