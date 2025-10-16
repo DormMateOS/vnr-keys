@@ -58,19 +58,29 @@ const CollectiveKeyReturnPage = () => {
     fetchAllTakenKeys();
   }, [fetchAllTakenKeys]);
 
-  // Filter keys: exclude user's own keys and apply search query
-  const filteredKeys = takenKeys.filter(key => {
-    // First exclude user's own keys
-    if (key.takenBy?.email === user?.email) {
+  // Defensive filter: exclude user's own keys and apply trimmed search query
+  const q = (searchQuery || "").toString().trim().toLowerCase();
+
+  const filteredKeys = takenKeys.filter((key) => {
+    // Exclude user's own keys
+    if (key?.takenBy?.email && user?.email && key.takenBy.email === user.email) {
       return false;
     }
-    
-    // Then apply search filters
+
+    // If no query, include the key (we already excluded user's own keys above)
+    if (!q) return true;
+
+    // Prepare safe string values for matching
+    const keyNumber = (key?.keyNumber || "").toString().toLowerCase();
+    const keyName = (key?.keyName || "").toLowerCase();
+    const location = (key?.location || "").toLowerCase();
+    const takenByName = (key?.takenBy?.name || "").toLowerCase();
+
     return (
-      key.keyNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      key.keyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      key.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      key.takenBy?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      keyNumber.includes(q) ||
+      keyName.includes(q) ||
+      location.includes(q) ||
+      takenByName.includes(q)
     );
   });
 

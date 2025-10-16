@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { User, MapPin, Key, X } from "lucide-react";
 
 const ManualKeyAssignmentModal = ({ isOpen, onClose, onConfirm, keyData }) => {
   const [keyTakerName, setKeyTakerName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = useRef(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!keyTakerName.trim()) return;
+    if (isSubmitting || submittingRef.current) return; // guard against double submit
 
+    submittingRef.current = true;
     setIsSubmitting(true);
     try {
       await onConfirm(keyTakerName.trim());
@@ -21,6 +24,7 @@ const ManualKeyAssignmentModal = ({ isOpen, onClose, onConfirm, keyData }) => {
       console.error("Error assigning key:", error);
     } finally {
       setIsSubmitting(false);
+      submittingRef.current = false;
     }
   };
 

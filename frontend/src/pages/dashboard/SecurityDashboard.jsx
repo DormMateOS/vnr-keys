@@ -344,9 +344,6 @@ const SecurityDashboard = () => {
     try {
       const result = await manualAssignKeyAPI(keyId, keyTakerName);
       
-      // Show success toast notification
-      handleSuccess(`Key ${result.key.keyNumber} (${result.key.keyName}) assigned to ${keyTakerName} successfully`);
-      
       return result;
     } catch (error) {
       console.error("Manual assign key error:", error);

@@ -53,19 +53,35 @@ const SearchResults = ({
         </div>
       ) : (
         <div className="space-y-4">
-          {filteredKeys.map((key) => (
-            <KeyCard
-              key={key.id}
-              keyData={key}
-              variant={variant}
-              onRequestKey={onRequestKey}
-              onCollectKey={onCollectKey}
-              onToggleFrequent={onToggleFrequent}
-              onReturnKey={onReturnKey}
-              onManualAssign={onManualAssign}
-              userRole={userRole}
-            />
-          ))}
+          {filteredKeys.map((key) => {
+            // Compute KeyCard variant per key so buttons render correctly
+            let keyVariant = variant; // use explicit variant if provided
+
+            if (variant === "all") {
+              // determine sensible default variants compatible with KeyCard
+              if (userRole === "security") {
+                // security expects 'default' for available keys to show Assign button
+                keyVariant = key.status === "available" ? "default" : "unavailable";
+              } else {
+                // faculty/admin: show 'taken' variant for unavailable keys so return QR shows
+                keyVariant = key.status === "unavailable" ? "taken" : "default";
+              }
+            }
+
+            return (
+              <KeyCard
+                key={key.id}
+                keyData={key}
+                variant={keyVariant}
+                onRequestKey={onRequestKey}
+                onCollectKey={onCollectKey}
+                onToggleFrequent={onToggleFrequent}
+                onReturnKey={onReturnKey}
+                onManualAssign={onManualAssign}
+                userRole={userRole}
+              />
+            );
+          })}
         </div>
       )}
     </div>
