@@ -65,7 +65,15 @@ router.get("/", (req, res) => {
           linkedin: "#",
         },
       },
-      
+      {
+        name: "Javeed",
+        role: "Full Stack Developer",
+        avatar: "/javeed.png",
+        socials: {
+          github: "https://github.com/javeedshaik13",
+          linkedin: "https://www.linkedin.com/in/javeed-shaik-8824282a2/",
+        },
+      },
     ],
   });
 });
