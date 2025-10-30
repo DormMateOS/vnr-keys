@@ -22,11 +22,11 @@ const ManageUsersPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/dashboard`
-    : import.meta.env.MODE === "development"
-      ? "https://dev-keys.vjstartup.com/be/api/dashboard"
-      : "/api/dashboard";
+  const API_URL = import.meta.env.VITE_ENVIRONMENT === "local"
+    ? `${import.meta.env.VITE_API_URL_LOCAL}/dashboard`
+    : import.meta.env.VITE_ENVIRONMENT === "dev"
+      ? `${import.meta.env.VITE_API_URL_DEV}/dashboard`
+      : `${import.meta.env.VITE_API_URL_PRO}/dashboard`;
 
   useEffect(() => {
     fetchUsers();

@@ -103,23 +103,95 @@ const ViewReportsPage = () => {
     if (!reports) return;
 
     try {
+      // Fetch logbook entries for the report
+      let logbookEntries = [];
+      try {
+        const logbookResponse = await axios.get(`${config.api.baseUrl}/logbook/admin/entries`, {
+          params: { 
+            limit: 100,
+            sortBy: 'createdAt',
+            sortOrder: 'desc'
+          },
+          withCredentials: true
+        });
+        logbookEntries = logbookResponse.data.data.entries || [];
+      } catch (error) {
+        console.error('Failed to fetch logbook entries:', error);
+      }
+
       // Create a new jsPDF instance
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
+      let yPosition = 20;
+
+      // Helper function to add new page if needed
+      const checkNewPage = (spaceNeeded = 30) => {
+        if (yPosition > pageHeight - spaceNeeded) {
+          pdf.addPage();
+          yPosition = 20;
+          return true;
+        }
+        return false;
+      };
+
+      // Helper function to draw table
+      const drawTable = (headers, rows, startY) => {
+        const colWidth = (pageWidth - 40) / headers.length;
+        yPosition = startY;
+
+        // Draw header
+        pdf.setFillColor(139, 69, 19);
+        pdf.rect(20, yPosition, pageWidth - 40, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'bold');
+        
+        headers.forEach((header, i) => {
+          pdf.text(header, 22 + (i * colWidth), yPosition + 7);
+        });
+
+        yPosition += 10;
+
+        // Draw rows
+        pdf.setFont(undefined, 'normal');
+        pdf.setTextColor(0, 0, 0);
+        rows.forEach((row, rowIndex) => {
+          checkNewPage(15);
+          
+          // Alternate row colors
+          if (rowIndex % 2 === 0) {
+            pdf.setFillColor(245, 245, 245);
+            pdf.rect(20, yPosition, pageWidth - 40, 8, 'F');
+          }
+
+          row.forEach((cell, i) => {
+            pdf.text(String(cell), 22 + (i * colWidth), yPosition + 6);
+          });
+          
+          yPosition += 8;
+        });
+
+        return yPosition;
+      };
 
       // Add header
-      pdf.setFontSize(20);
-      pdf.setTextColor(139, 69, 19); // Purple color
-      pdf.text('VNR Keys - System Report', pageWidth / 2, 20, { align: 'center' });
+      pdf.setFontSize(22);
+      pdf.setTextColor(139, 69, 19);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('VNR Keys - System Report', pageWidth / 2, yPosition, { align: 'center' });
+      yPosition += 5;
 
-      // Add a line under the header
+      // Add line under header
       pdf.setDrawColor(139, 69, 19);
-      pdf.line(20, 25, pageWidth - 20, 25);
+      pdf.setLineWidth(0.5);
+      pdf.line(20, yPosition, pageWidth - 20, yPosition);
+      yPosition += 10;
 
-      // Add date and time range
-      pdf.setFontSize(12);
+      // Add metadata
+      pdf.setFontSize(10);
       pdf.setTextColor(100, 100, 100);
+      pdf.setFont(undefined, 'normal');
       const currentDate = new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -129,72 +201,301 @@ const ViewReportsPage = () => {
         hour: '2-digit',
         minute: '2-digit'
       });
-      pdf.text(`Generated on: ${currentDate} at ${currentTime}`, 20, 35);
-      pdf.text(`Time Range: ${timeRange === '7d' ? 'Last 7 days' : timeRange === '30d' ? 'Last 30 days' : 'Last 90 days'}`, 20, 45);
-      pdf.text('VNRVJIET Key Management System', 20, 55);
+      pdf.text(`Generated on: ${currentDate} at ${currentTime}`, 20, yPosition);
+      yPosition += 6;
+      pdf.text(`Time Range: ${filters.timeRange === '7d' ? 'Last 7 days' : filters.timeRange === '30d' ? 'Last 30 days' : filters.timeRange === '90d' ? 'Last 90 days' : 'Last 24 hours'}`, 20, yPosition);
+      yPosition += 6;
+      pdf.text('VNRVJIET Key Management System', 20, yPosition);
+      yPosition += 15;
 
-      // Add overview statistics
+      // System Overview Section
       pdf.setFontSize(16);
       pdf.setTextColor(0, 0, 0);
-      pdf.text('System Overview', 20, 75);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('System Overview', 20, yPosition);
+      yPosition += 10;
 
-      // Stats section
-      pdf.setFontSize(12);
-      const stats = [
-        { label: 'Total Users', value: reports?.userAnalytics?.totalUsers || 0, change: `+${reports?.userAnalytics?.newUsers || 0} new this period` },
-        { label: 'Active Users', value: reports?.userAnalytics?.activeUsers || 0, change: '100% of total' },
-        { label: 'API Keys', value: 0, change: '0 active' },
-        { label: 'Peak Usage', value: 0, change: '' }
+      const overviewHeaders = ['Metric', 'Value', 'Details'];
+      const overviewRows = [
+        ['Total Users', String(reports?.userAnalytics?.totalUsers || 0), `+${reports?.userAnalytics?.newUsers || 0} new this period`],
+        ['Active Users', String(reports?.userAnalytics?.activeUsers || 0), `${((reports?.userAnalytics?.activeUsers / reports?.userAnalytics?.totalUsers * 100) || 0).toFixed(1)}% of total`],
+        ['Total Keys', String(keys?.length || 0), 'All keys in system'],
+        ['Keys in Use', String(keys?.filter(k => k.status === 'unavailable').length || 0), 'Currently unavailable'],
+        ['Available Keys', String(keys?.filter(k => k.status === 'available').length || 0), 'Ready to use'],
+        ['Usage Rate', `${(analyticsData?.peakUsage?.usagePercentage || 0).toFixed(1)}%`, 'Peak usage percentage']
       ];
 
-      let yPosition = 90;
-      stats.forEach((stat) => {
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(`${stat.label}:`, 20, yPosition);
-        pdf.setTextColor(139, 69, 19);
-        pdf.text(`${stat.value}`, 80, yPosition);
-        if (stat.change) {
-          pdf.setTextColor(100, 100, 100);
-          pdf.text(`(${stat.change})`, 100, yPosition);
-        }
-        yPosition += 15;
-      });
+      yPosition = drawTable(overviewHeaders, overviewRows, yPosition);
+      yPosition += 15;
 
-      // Add registration trend section
+      // Most Used Keys Section
+      checkNewPage(40);
+      pdf.setFontSize(16);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Most Used Keys', 20, yPosition);
       yPosition += 10;
+
+      const mostUsedKeys = analyticsData?.keyUsage?.mostUsedKeys || [];
+      if (mostUsedKeys.length > 0) {
+        const keyHeaders = ['Key Number', 'Key Name', 'Department', 'Usage Count'];
+        const keyRows = mostUsedKeys.slice(0, 10).map(key => [
+          key.keyNumber || 'N/A',
+          key.keyName || 'N/A',
+          key.department || 'N/A',
+          String(key.usageCount || 0)
+        ]);
+        yPosition = drawTable(keyHeaders, keyRows, yPosition);
+      } else {
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No usage data available', 20, yPosition);
+      }
+      yPosition += 15;
+
+      // Peak Usage Hours Section
+      checkNewPage(40);
       pdf.setFontSize(16);
       pdf.setTextColor(0, 0, 0);
-      pdf.text('User Registration Trend', 20, yPosition);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Peak Usage Hours', 20, yPosition);
+      yPosition += 10;
 
-      // Add trend data if available
-      if (reports?.userAnalytics?.registrationTrend) {
-        yPosition += 20;
+      const peakHours = analyticsData?.peakUsage?.peakHours || [];
+      if (peakHours.length > 0) {
+        const peakHeaders = ['Time Period', 'Usage Count', 'Rank'];
+        const peakRows = peakHours.map((peak, index) => [
+          peak.timeLabel || 'N/A',
+          String(peak.count || 0),
+          `#${index + 1}`
+        ]);
+        yPosition = drawTable(peakHeaders, peakRows, yPosition);
+      } else {
+        pdf.setFont(undefined, 'normal');
         pdf.setFontSize(10);
-        pdf.text('Date', 20, yPosition);
-        pdf.text('Registrations', 80, yPosition);
-        yPosition += 10;
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No peak usage data available', 20, yPosition);
+      }
+      yPosition += 15;
 
-        reports.userAnalytics.registrationTrend.forEach((day) => {
-          const date = new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          pdf.text(date, 20, yPosition);
-          pdf.text(day.count.toString(), 80, yPosition);
-          yPosition += 8;
+      // Department Usage Section
+      checkNewPage(40);
+      pdf.setFontSize(16);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Usage by Department', 20, yPosition);
+      yPosition += 10;
 
-          // Check if we need a new page
-          if (yPosition > pageHeight - 30) {
-            pdf.addPage();
-            yPosition = 20;
-          }
+      const deptUsers = analyticsData?.activeUsers?.usersByDepartment || [];
+      if (deptUsers.length > 0) {
+        const deptHeaders = ['Department', 'Active Users', 'Percentage'];
+        const totalDeptUsers = deptUsers.reduce((sum, dept) => sum + dept.count, 0);
+        const deptRows = deptUsers.map(dept => [
+          dept._id || 'N/A',
+          String(dept.count || 0),
+          `${((dept.count / totalDeptUsers * 100) || 0).toFixed(1)}%`
+        ]);
+        yPosition = drawTable(deptHeaders, deptRows, yPosition);
+      } else {
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No department data available', 20, yPosition);
+      }
+      yPosition += 15;
+
+      // User Registration Trend Section
+      checkNewPage(40);
+      pdf.setFontSize(16);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('User Registration Trend', 20, yPosition);
+      yPosition += 10;
+
+      if (reports?.userAnalytics?.registrationTrend && reports.userAnalytics.registrationTrend.length > 0) {
+        const trendHeaders = ['Date', 'New Registrations'];
+        const trendRows = reports.userAnalytics.registrationTrend.map(day => [
+          new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          String(day.count || 0)
+        ]);
+        yPosition = drawTable(trendHeaders, trendRows, yPosition);
+      } else {
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No registration trend data available', 20, yPosition);
+      }
+      yPosition += 15;
+
+      // Key Usage Over Time Section
+      checkNewPage(40);
+      pdf.setFontSize(16);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Key Usage Over Time', 20, yPosition);
+      yPosition += 10;
+
+      const usageOverTime = analyticsData?.keyUsage?.usageOverTime || [];
+      if (usageOverTime.length > 0) {
+        const usageHeaders = ['Period', 'Keys Used'];
+        const usageRows = usageOverTime.map(item => [
+          item._id || item.period || 'N/A',
+          String(item.count || 0)
+        ]);
+        yPosition = drawTable(usageHeaders, usageRows, yPosition);
+      } else {
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No usage timeline data available', 20, yPosition);
+      }
+      yPosition += 15;
+
+      // Logbook Entries Section
+      checkNewPage(40);
+      pdf.setFontSize(16);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Recent Logbook Entries', 20, yPosition);
+      yPosition += 10;
+
+      if (logbookEntries.length > 0) {
+        // Create logbook table with landscape-style layout
+        const logbookHeaders = ['S.No', 'Key Name', 'Taken By', 'Taken Time', 'Returned By', 'Return Time'];
+        const logbookRows = logbookEntries.map((entry, index) => {
+          const takenTime = entry.takenAt 
+            ? new Date(entry.takenAt).toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              })
+            : 'N/A';
+          
+          const returnTime = entry.returnedAt 
+            ? new Date(entry.returnedAt).toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              })
+            : entry.status === 'unavailable' ? 'Not Returned' : 'N/A';
+
+          const takenBy = entry.takenBy?.name || 'N/A';
+          const returnedBy = entry.returnedBy?.name || (entry.status === 'unavailable' ? 'Pending' : 'N/A');
+
+          return [
+            String(index + 1),
+            entry.keyName || 'N/A',
+            takenBy,
+            takenTime,
+            returnedBy,
+            returnTime
+          ];
         });
+
+        // Custom table drawing for logbook with smaller font
+        const colWidths = [10, 30, 30, 30, 30, 30]; // Adjusted column widths
+        let currentY = yPosition;
+
+        // Draw header
+        pdf.setFillColor(139, 69, 19);
+        pdf.rect(20, currentY, pageWidth - 40, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(8);
+        pdf.setFont(undefined, 'bold');
+        
+        let xPos = 22;
+        logbookHeaders.forEach((header, i) => {
+          pdf.text(header, xPos, currentY + 7);
+          xPos += colWidths[i];
+        });
+
+        currentY += 10;
+
+        // Draw rows
+        pdf.setFont(undefined, 'normal');
+        pdf.setTextColor(0, 0, 0);
+        logbookRows.forEach((row, rowIndex) => {
+          if (currentY > pageHeight - 30) {
+            pdf.addPage();
+            currentY = 20;
+            
+            // Redraw header on new page
+            pdf.setFillColor(139, 69, 19);
+            pdf.rect(20, currentY, pageWidth - 40, 10, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(8);
+            pdf.setFont(undefined, 'bold');
+            
+            xPos = 22;
+            logbookHeaders.forEach((header, i) => {
+              pdf.text(header, xPos, currentY + 7);
+              xPos += colWidths[i];
+            });
+            
+            currentY += 10;
+            pdf.setFont(undefined, 'normal');
+            pdf.setTextColor(0, 0, 0);
+          }
+          
+          // Alternate row colors
+          if (rowIndex % 2 === 0) {
+            pdf.setFillColor(245, 245, 245);
+            pdf.rect(20, currentY, pageWidth - 40, 8, 'F');
+          }
+
+          xPos = 22;
+          row.forEach((cell, i) => {
+            // Truncate text if too long
+            const maxWidth = colWidths[i] - 4;
+            let displayText = String(cell);
+            
+            if (pdf.getTextWidth(displayText) > maxWidth) {
+              while (pdf.getTextWidth(displayText + '...') > maxWidth && displayText.length > 0) {
+                displayText = displayText.slice(0, -1);
+              }
+              displayText += '...';
+            }
+            
+            pdf.text(displayText, xPos, currentY + 6);
+            xPos += colWidths[i];
+          });
+          
+          currentY += 8;
+        });
+
+        yPosition = currentY;
+      } else {
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('No logbook entries available', 20, yPosition);
       }
 
-      // Add footer
-      pdf.setFontSize(8);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text('VNR Keys Management System - Confidential Report', pageWidth / 2, pageHeight - 10, { align: 'center' });
+      // Add footer to all pages
+      const pageCount = pdf.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(8);
+        pdf.setTextColor(100, 100, 100);
+        pdf.setFont(undefined, 'normal');
+        pdf.text(
+          'VNR Keys Management System - Confidential Report',
+          pageWidth / 2,
+          pageHeight - 10,
+          { align: 'center' }
+        );
+        pdf.text(
+          `Page ${i} of ${pageCount}`,
+          pageWidth - 20,
+          pageHeight - 10,
+          { align: 'right' }
+        );
+      }
 
       // Save the PDF
-      const fileName = `vnr-keys-report-${timeRange}-${new Date().toISOString().split('T')[0]}.pdf`;
+      const fileName = `vnr-keys-report-${filters.timeRange}-${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(fileName);
 
       handleSuccess('PDF report exported successfully');
