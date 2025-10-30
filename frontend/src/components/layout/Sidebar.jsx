@@ -158,9 +158,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </NavLink>
                     </motion.li>
                   ))}
-
                   {/* Volunteer Key Return - visible to Faculty */}
-                  {(user?.role === "faculty") && (
+                  {/* {(user?.role === "faculty") && (
                     <motion.li
                       key={collectiveKeyReturnItem.path}
                       initial={{ opacity: 0, x: -20 }}
@@ -183,7 +182,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <span className="font-medium text-sm lg:text-base">{collectiveKeyReturnItem.label}</span>
                       </NavLink>
                     </motion.li>
-                  )}
+                  )} */}
 
                   {user?.role === "admin" &&
                     adminMenuItems.map((item, index) => (

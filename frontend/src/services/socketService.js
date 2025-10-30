@@ -10,15 +10,28 @@ class SocketService {
     this.maxReconnectAttempts = 5;
     this.reconnectDelay = 1000;
     this.listeners = new Map();
+    this._listenersSetup = false; // guard to avoid double-registration
   }
 
   /**
    * Initialize socket connection
    */
   connect() {
+    // If already connected, return existing socket
     if (this.socket && this.isConnected) {
       return this.socket;
     }
+
+    // If a connect is already in progress, return the pending socket
+    if (this._connecting) {
+      if (import.meta.env.MODE === 'development') {
+        console.log('🔁 Socket connect already in progress, returning existing socket');
+      }
+      return this.socket;
+    }
+
+    // Set connecting flag immediately to avoid race between concurrent connect calls
+    this._connecting = true;
 
     const serverUrl = config.socket.url;
 
@@ -26,14 +39,32 @@ class SocketService {
       console.log('🔌 Connecting to Socket.IO server:', serverUrl);
     }
 
+    // If we already have a socket instance (disconnected), try to reconnect it first
+    if (this.socket) {
+      try {
+        this.socket.connect();
+        return this.socket;
+      } catch (err) {
+        // fallback to creating a fresh socket instance
+        if (import.meta.env.MODE === 'development') {
+          console.warn('🔁 Existing socket reconnect failed, creating a new instance', err);
+        }
+      }
+    }
+
     this.socket = io(serverUrl, {
       withCredentials: true,
       transports: ['websocket', 'polling'],
       timeout: 10000,
-      forceNew: true
+      forceNew: false
     });
 
     this.setupEventListeners();
+  // clear connecting flag when socket connects or errors
+  const clearConnecting = () => { this._connecting = false; };
+  this.socket.once('connect', clearConnecting);
+  this.socket.once('connect_error', clearConnecting);
+
     return this.socket;
   }
 
@@ -42,6 +73,14 @@ class SocketService {
    */
   setupEventListeners() {
     if (!this.socket) return;
+
+    // Avoid registering the same event handlers multiple times
+    if (this._listenersSetup) {
+      if (import.meta.env.MODE === 'development') {
+        console.log('🔁 Socket listeners already set up — skipping duplicate registration');
+      }
+      return;
+    }
 
     this.socket.on('connect', () => {
       if (import.meta.env.MODE === 'development') {
@@ -114,6 +153,9 @@ class SocketService {
       console.log('🔢 Notification count update received:', data);
       this.emit('notification-count-update', data);
     });
+
+    // Mark that we've registered listeners to avoid duplicates
+    this._listenersSetup = true;
   }
 
   /**
@@ -216,6 +258,7 @@ class SocketService {
       this.socket = null;
       this.isConnected = false;
       this.listeners.clear();
+      this._listenersSetup = false;
     }
   }
 

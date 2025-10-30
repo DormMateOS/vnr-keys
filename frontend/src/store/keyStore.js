@@ -8,6 +8,9 @@ import { useAuthStore } from "./authStore.js";
 
 const API_URL = config.api.keysUrl;
 
+// Guard to ensure we only register store-level socket handlers once
+let _socketHandlersInitialized = false;
+
 // Helper function to transform backend key data to frontend format
 const transformKeyData = (backendKey) => {
   return {
@@ -420,9 +423,15 @@ export const useKeyStore = create((set, get) => ({
   // Initialize WebSocket connection
   initializeSocket: () => {
     try {
+      if (_socketHandlersInitialized) {
+        // Already initialized - just ensure socket is connected
+        socketService.connect();
+        return;
+      }
+
       socketService.connect();
 
-      // Set up event listeners for real-time updates
+      // Set up event listeners for real-time updates (only once)
       socketService.on('keyUpdated', (data) => {
         const { keys } = get();
         let updatedKeys = [...keys];
@@ -529,6 +538,7 @@ export const useKeyStore = create((set, get) => ({
 
       set({ isSocketConnected: true });
       console.log('✅ Socket service initialized successfully');
+      _socketHandlersInitialized = true;
     } catch (error) {
       console.error('Failed to initialize socket:', error);
       set({ isSocketConnected: false });
@@ -565,6 +575,7 @@ export const useKeyStore = create((set, get) => ({
   disconnectSocket: () => {
     socketService.disconnect();
     set({ isSocketConnected: false });
+    _socketHandlersInitialized = false;
   },
 
   // Fetch keys from API
@@ -609,6 +620,38 @@ export const useKeyStore = create((set, get) => ({
       return updatedKey;
     } catch (error) {
       console.error("Error taking key:", error);
+      const errorMessage = handleError(error);
+      set({ error: errorMessage, isLoading: false });
+      throw error;
+    }
+  },
+
+  // Manually assign a key via API (security only)
+  manualAssignKeyAPI: async (keyId, keyTakerName) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(`${API_URL}/${keyId}/manual-assign`, {
+        keyTakerName: keyTakerName
+      }, {
+        withCredentials: true,
+      });
+
+      const updatedKey = transformKeyData(response.data.data.key);
+      const { keys } = get();
+      const updatedKeys = keys.map(key =>
+        key.id === keyId ? updatedKey : key
+      );
+
+      set({ keys: updatedKeys, isLoading: false });
+      handleSuccess(response.data.message);
+      return {
+        key: updatedKey,
+        assignedTo: response.data.data.assignedTo,
+        assignedBy: response.data.data.assignedBy
+      };
+    } catch (error) {
+      console.error("Error manually assigning key:", error);
       const errorMessage = handleError(error);
       set({ error: errorMessage, isLoading: false });
       throw error;

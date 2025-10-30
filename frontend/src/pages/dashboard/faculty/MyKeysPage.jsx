@@ -23,10 +23,11 @@ const MyKeysPage = () => {
       {searchQuery.trim() && (
         <SearchResults
           searchQuery={searchQuery}
-          keys={keys}
+          keys={takenKeys}
           onRequestKey={handleRequestKey}
           onReturnKey={handleReturnKey}
           userRole="faculty"
+          variant="taken"
         />
       )}
       {!searchQuery.trim() && (

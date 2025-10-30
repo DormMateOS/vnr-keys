@@ -46,6 +46,7 @@ const SecurityDashboard = () => {
     getUnavailableKeys,
     fetchKeys,
     returnKeyAPI,
+    manualAssignKeyAPI,
     initializeSocket,
     disconnectSocket
   } = useKeyStore();
@@ -339,6 +340,17 @@ const SecurityDashboard = () => {
     }
   };
 
+  const handleManualAssign = async (keyId, keyTakerName) => {
+    try {
+      const result = await manualAssignKeyAPI(keyId, keyTakerName);
+      
+      return result;
+    } catch (error) {
+      console.error("Manual assign key error:", error);
+      throw error;
+    }
+  };
+
   const handleConfirmReturn = async () => {
     if (!pendingReturnData) return;
     
@@ -413,6 +425,7 @@ const SecurityDashboard = () => {
     selectedDepartment,
     keys,
     handleCollectKey,
+    handleManualAssign,
     handleDepartmentClick,
     handleBackToListing,
     unavailableKeys,
