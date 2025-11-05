@@ -341,35 +341,88 @@ const KeyCard = ({
               ></button>
             </div>
 
-            {/* QR */}
-            <div className="flex justify-center mb-4">
-              <QRCode
-                value={JSON.stringify(localQRData || qrData)}
-                size={200}
-              />
+            <div className="text-center">
+              {/* QR */}
+              {!qrCollected && (
+                <div className="flex justify-center mb-4">
+                  <QRCode
+                    value={JSON.stringify(localQRData || qrData)}
+                    size={200}
+                  />
+                </div>
+              )}
+
+              {qrCollected ? (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="mb-4"
+                >
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-2xl p-6 mb-4 shadow-lg">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
+                      className="text-6xl mb-3"
+                    >
+                      ✅
+                    </motion.div>
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-green-700 font-bold text-2xl mb-2"
+                    >
+                      Successfully Scanned!
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="text-green-600 text-base"
+                    >
+                      🔐 Security has received the key
+                    </motion.p>
+                  </div>
+                </motion.div>
+              ) : (
+                <>
+                  {/* Instructions */}
+                  <p className="text-gray-900 mb-2 text-center text-sm whitespace-nowrap">
+                    Show this QR code to security to return the key
+                  </p>
+
+                  {/* Expiry Timer */}
+                  <p
+                    className={`text-center mb-4 text-sm font-bold ${
+                      qrExpired ? "text-red-600" : "text-gray-900"
+                    }`}
+                  >
+                    {qrExpired
+                      ? "QR expired"
+                      : `Expires in ${String(Math.floor(qrSecondsLeft / 60)).padStart(
+                          2,
+                          "0"
+                        )}:${String(qrSecondsLeft % 60).padStart(2, "0")}`}
+                  </p>
+                </>
+              )}
             </div>
 
-            {/* Instructions */}
-            <p className="text-gray-600 text-center mb-2">
-              Show this QR code to security to return the key
-            </p>
-
-            {/* Expiry Timer */}
-            <p
-              className={`text-center mb-4 text-sm font-bold ${
-                qrExpired ? "text-red-600" : "text-gray-900"
-              }`}
-            >
-              {qrExpired
-                ? "QR expired"
-                : `Expires in ${String(Math.floor(qrSecondsLeft / 60)).padStart(
-                    2,
-                    "0"
-                  )}:${String(qrSecondsLeft % 60).padStart(2, "0")}`}
-            </p>
-
             {/* Buttons */}
-            {qrExpired ? (
+            {qrCollected ? (
+              <button
+                onClick={() => {
+                  setShowQRModal(false);
+                  setLocalQRData(null);
+                  setQrCollected(false);
+                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+              >
+                Done
+              </button>
+            ) : qrExpired ? (
               <div className="flex gap-3">
                 <button
                   onClick={async () => {
@@ -394,7 +447,7 @@ const KeyCard = ({
                     setLocalQRData(null);
                     setQrCollected(false);
                   }}
-                  className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-200 py-2 px-4 rounded-lg font-medium transition-colors"
                 >
                   Close
                 </button>
@@ -406,7 +459,7 @@ const KeyCard = ({
                   setLocalQRData(null);
                   setQrCollected(false);
                 }}
-                className="w-full bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
               >
                 Close
               </button>
