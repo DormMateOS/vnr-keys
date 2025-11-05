@@ -151,18 +151,36 @@ const FacultyDashboard = () => {
     return () => clearInterval(id);
   }, [showQRModal, qrData]);
 
-  // Listen for request QR collected via sockets
+  // Listen for request/return QR collected via sockets
   useEffect(() => {
     if (!showQRModal || !qrData) return;
     try { socketService.connect(); } catch { /* intentionally ignored */ }
 
     const onEvent = (data) => {
       try {
-        if (data?.action !== 'qr-request') return;
+        // Check for both request and return actions
+        const isRequestAction = data?.action === 'qr-request';
+        const isReturnAction = data?.action === 'qr-return';
+        
+        if (!isRequestAction && !isReturnAction) return;
+        
         const eventKeyId = data.key?._id || data.key?.id;
-        if (eventKeyId === qrData.keyId && data.requestingUserId === user?.id) {
+        const eventUserId = data.requestingUserId || data.returningUserId;
+        
+        // Match based on QR type
+        const isMatchingRequest = qrData.type === 'key-request' && isRequestAction;
+        const isMatchingReturn = qrData.type === 'key-return' && isReturnAction;
+        
+        if ((isMatchingRequest || isMatchingReturn) && eventKeyId === qrData.keyId && eventUserId === user?.id) {
           setQrCollected(true);
           setQrExpired(false);
+          
+          // Optionally refresh taken keys after successful scan
+          if (user?.id) {
+            setTimeout(() => {
+              fetchTakenKeys(user.id).catch(console.error);
+            }, 1000);
+          }
         }
       } catch {
         // intentionally left blank
@@ -175,7 +193,7 @@ const FacultyDashboard = () => {
       socketService.off('userKeyUpdated', onEvent);
       socketService.off('keyUpdated', onEvent);
     };
-  }, [showQRModal, qrData, user?.id]);
+  }, [showQRModal, qrData, user?.id, fetchTakenKeys]);
 
   const handleRegenerateRequestQR = async () => {
     if (!qrData?.keyId || !user?.id) return;
@@ -267,19 +285,58 @@ const FacultyDashboard = () => {
               ></button>
             </div>
             <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <QRCode value={JSON.stringify(qrData)} size={200} />
-              </div>
+              {!qrCollected && (
+                <div className="flex justify-center mb-4">
+                  <QRCode value={JSON.stringify(qrData)} size={200} />
+                </div>
+              )}
 
-              <p className="text-gray-600">Show this QR code to security to {qrData?.type === 'key-return' ? 'return' : 'request'} the key</p>
-              <p className="text-gray-900 mb-2 text-center text-sm whitespace-nowrap">
-                {qrData.type === 'key-request'
-                  ? 'Show this QR code to security to request the key'
-                  : 'Show this QR code to security to return the key'}
-              </p>
-              <p className={`text-center mb-4 text-sm font-bold ${qrExpired ? 'text-red-600 font-medium' : 'text-gray-900'}`}>
-                {qrExpired ? 'QR expired' : `Expires in ${String(Math.floor(qrSecondsLeft / 60)).padStart(2,'0')}:${String(qrSecondsLeft % 60).padStart(2,'0')}`}
-              </p>
+              {qrCollected ? (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="mb-4"
+                >
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-2xl p-6 mb-4 shadow-lg">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
+                      className="text-6xl mb-3"
+                    >
+                      ✅
+                    </motion.div>
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-green-700 font-bold text-2xl mb-2"
+                    >
+                      Successfully Scanned!
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="text-green-600 text-base"
+                    >
+                      🔐 Security has {qrData.type === 'key-return' ? 'received' : 'collected'} the key
+                    </motion.p>
+                  </div>
+                </motion.div>
+              ) : (
+                <>
+                  <p className="text-gray-900 mb-2 text-center text-sm whitespace-nowrap">
+                    {qrData.type === 'key-request'
+                      ? 'Show this QR code to security to request the key'
+                      : 'Show this QR code to security to return the key'}
+                  </p>
+                  <p className={`text-center mb-4 text-sm font-bold ${qrExpired ? 'text-red-600 font-medium' : 'text-gray-900'}`}>
+                    {qrExpired ? 'QR expired' : `Expires in ${String(Math.floor(qrSecondsLeft / 60)).padStart(2,'0')}:${String(qrSecondsLeft % 60).padStart(2,'0')}`}
+                  </p>
+                </>
+              )}
               {/* <div className="bg-gray-50 rounded-lg p-3 mb-4">
                 <p className="text-sm text-gray-500">
                   {qrData.type === 'key-request' ? 'Request ID:' : 'Return ID:'}
@@ -288,7 +345,14 @@ const FacultyDashboard = () => {
                   {qrData.requestId || qrData.returnId}
                 </p>
               </div> */}
-              {qrExpired ? (
+              {qrCollected ? (
+                <button
+                  onClick={() => { setShowQRModal(false); setQrCollected(false); }}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                >
+                  Done
+                </button>
+              ) : qrExpired ? (
                 <div className="flex gap-3">
                   <button
                     onClick={handleRegenerateRequestQR}
@@ -308,7 +372,7 @@ const FacultyDashboard = () => {
                   onClick={() => { setShowQRModal(false); setQrCollected(false); }}
                   className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
                 >
-                  {qrCollected ? 'Done' : 'Close'}
+                  Close
                 </button>
               )}
             </div>
