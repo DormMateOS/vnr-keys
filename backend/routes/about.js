@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
       {
         name: "Karthik",
         role: "Project Lead Developer",
-        avatar: "/gkarthik.png",
+        avatar: "/karthik.png",
         socials: {
           github: "https://github.com/gurramkarthiknetha",
           linkedin: "https://www.linkedin.com/in/gurramkarthiknetha/",
