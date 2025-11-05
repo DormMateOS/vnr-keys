@@ -11,8 +11,8 @@ router.get("/", (req, res) => {
     team: [
       {
         name: "Karthik",
-        role: "Full Stack Developer",
-        avatar: "/karthik.png",
+        role: "Project Lead Developer",
+        avatar: "/gkarthik.png",
         socials: {
           github: "https://github.com/gurramkarthiknetha",
           linkedin: "https://www.linkedin.com/in/gurramkarthiknetha/",
@@ -67,7 +67,7 @@ router.get("/", (req, res) => {
       },
       {
         name: "Javeed",
-        role: "Full Stack Developer",
+        role: "Frontend Developer",
         avatar: "/javeed.png",
         socials: {
           github: "https://github.com/javeedshaik13",
