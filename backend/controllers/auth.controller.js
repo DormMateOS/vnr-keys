@@ -39,7 +39,7 @@ export const completeRegistration = asyncHandler(async (req, res) => {
 
 	// Validate faculty-specific fields (only for faculty role)
 	if (role === 'faculty') {
-		if (!department || !['CSE', 'EEE', 'CSE-AIML', 'IoT', 'ECE', 'MECH', 'CIVIL', 'IT'].includes(department)) {
+		if (!department || !['CSE', 'EEE', 'CSE-AIML', 'CSE_AIDS', 'IoT', 'ECE', 'MECH', 'CIVIL', 'IT'].includes(department)) {
 			throw new ValidationError('Valid department is required for faculty');
 		}
 		if (!facultyId || facultyId.trim().length === 0) {
